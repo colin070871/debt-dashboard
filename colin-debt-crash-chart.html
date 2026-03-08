@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEBT CRASH — Colin</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --panel: #111;
+    --border: #222;
+    --od: #ff3b3b;
+    --flex: #f5a623;
+    --mbna: #4fc3f7;
+    --actual: #ff3b3b;
+    --xod: #ff3b3b44;
+    --grid: #1a1a1a;
+    --text: #e0e0e0;
+    --dim: #555;
+    --green: #39ff14;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    letter-spacing: 0.1em;
+    line-height: 1;
+    background: linear-gradient(135deg, #ff3b3b 0%, #f5a623 50%, #4fc3f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 0.6rem;
+    color: var(--dim);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+  }
+
+  .scoreboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 960px;
+    margin-bottom: 1px;
+  }
+
+  .score-cell {
+    background: var(--panel);
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .score-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .score-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+  }
+
+  .score-date {
+    font-size: 0.6rem;
+    color: var(--dim);
+    margin-top: 0.2rem;
+  }
+
+  .od-val { color: var(--od); }
+  .flex-val { color: var(--flex); }
+  .mbna-val { color: var(--mbna); }
+
+  .chart-wrap {
+    width: 100%;
+    max-width: 960px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  canvas {
+    width: 100% !important;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .legend-line {
+    width: 24px;
+    height: 2px;
+  }
+
+  .legend-dash {
+    width: 24px;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, currentColor 0, currentColor 4px, transparent 4px, transparent 8px);
+  }
+
+  .milestone-labels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    width: 100%;
+    max-width: 960px;
+    margin-bottom: 0;
+  }
+
+  .milestone {
+    background: var(--bg);
+    padding: 0.8rem 1rem;
+    text-align: center;
+  }
+
+  .milestone-tag {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .milestone-date {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+  }
+
+  .milestone-sub {
+    font-size: 0.55rem;
+    color: var(--dim);
+    margin-top: 0.1rem;
+  }
+
+  .birthday-banner {
+    width: 100%;
+    max-width: 960px;
+    background: var(--green);
+    color: #000;
+    text-align: center;
+    padding: 0.8rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 2rem;
+  }
+</style>
+</head>
+<body>
+
+<div style="text-align:center;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.3em;color:#555;text-transform:uppercase;margin-bottom:1.2rem;padding-top:0.5rem;">
+  UPDATED: 7 MARCH 2026
+</div>
+
+<div class="milestone-labels">
+  <div class="milestone">
+    <div class="milestone-tag">OD Clears</div>
+    <div class="milestone-date" style="color:var(--od)">7 MAY</div>
+    <div class="milestone-sub">9 weeks on Thursday</div>
+  </div>
+  <div class="milestone">
+    <div class="milestone-tag">Flex Clears</div>
+    <div class="milestone-date" style="color:var(--flex)">25 JUN</div>
+    <div class="milestone-sub">16 weeks on Thursday</div>
+  </div>
+  <div class="milestone">
+    <div class="milestone-tag">MBNA Clears</div>
+    <div class="milestone-date" style="color:var(--mbna)">7 AUG</div>
+    <div class="milestone-sub">22 weeks on Friday 🎂</div>
+  </div>
+</div>
+
+<div class="scoreboard">
+  <div class="score-cell">
+    <div class="score-label">OD Now</div>
+    <div class="score-value od-val">£831.96</div>
+    <div class="score-date">6 Mar 2026</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-label">Flex</div>
+    <div class="score-value flex-val">£1,385.90</div>
+    <div class="score-date">current</div>
+  </div>
+  <div class="score-cell">
+    <div class="score-label">MBNA</div>
+    <div class="score-value mbna-val">£887.56</div>
+    <div class="score-date">current</div>
+  </div>
+</div>
+
+<div class="chart-wrap">
+  <canvas id="chart"></canvas>
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-line" style="background:var(--od);"></div>
+      <span style="color:var(--od)">OD ACTUAL</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dash" style="color:var(--od);"></div>
+      <span>OD FORECAST</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dash" style="color:var(--flex);"></div>
+      <span style="color:var(--flex)">FLEX FORECAST</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dash" style="color:var(--mbna);"></div>
+      <span style="color:var(--mbna)">MBNA FORECAST</span>
+    </div>
+  </div>
+</div>
+
+<div class="birthday-banner">🎂 35TH BIRTHDAY — 7 AUGUST 2026 — DEBT FREE 🎂</div>
+
+<script>
+const data = [
+  ["Mar 6",808.34,1385.90,887.56,831.96],
+  ["Mar 7",800.43,1385.90,887.56,null],
+  ["Mar 8",764.75,1385.90,887.56,null],
+  ["Mar 9",769.75,1385.90,887.56,null],
+  ["Mar 10",774.75,1385.90,887.56,null],
+  ["Mar 11",748.06,1385.90,887.56,null],
+  ["Mar 12",738.36,1385.90,887.56,null],
+  ["Mar 13",702.68,1385.90,887.56,null],
+  ["Mar 14",707.68,1385.90,887.56,null],
+  ["Mar 15",909.10,1385.90,862.45,null],
+  ["Mar 16",873.42,1385.90,862.45,null],
+  ["Mar 17",852.74,1385.90,862.45,null],
+  ["Mar 18",817.06,1385.90,862.45,null],
+  ["Mar 19",781.38,1385.90,862.45,null],
+  ["Mar 20",801.70,1385.90,862.45,null],
+  ["Mar 21",806.70,1385.90,862.45,null],
+  ["Mar 22",771.02,1385.90,862.45,null],
+  ["Mar 23",735.34,1385.90,862.45,null],
+  ["Mar 24",699.66,1385.90,862.45,null],
+  ["Mar 25",763.63,1296.24,862.45,null],
+  ["Mar 26",795.10,1296.24,862.45,null],
+  ["Mar 27",759.42,1296.24,862.45,null],
+  ["Mar 28",813.36,1296.24,862.45,null],
+  ["Mar 29",777.68,1296.24,862.45,null],
+  ["Mar 30",742.00,1296.24,862.45,null],
+  ["Mar 31",706.32,1296.24,862.45,null],
+  ["Apr 1",690.64,1296.24,862.45,null],
+  ["Apr 2",654.96,1296.24,862.45,null],
+  ["Apr 3",630.06,1296.24,862.45,null],
+  ["Apr 4",641.37,1296.24,862.45,null],
+  ["Apr 5",605.69,1296.24,862.45,null],
+  ["Apr 6",570.01,1296.24,862.45,null],
+  ["Apr 7",534.33,1296.24,862.45,null],
+  ["Apr 8",498.65,1296.24,862.45,null],
+  ["Apr 9",462.97,1296.24,862.45,null],
+  ["Apr 10",427.29,1296.24,862.45,null],
+  ["Apr 11",347.28,1296.24,862.45,null],
+  ["Apr 12",337.58,1296.24,862.45,null],
+  ["Apr 13",301.90,1296.24,862.45,null],
+  ["Apr 14",266.22,1296.24,862.45,null],
+  ["Apr 15",467.64,1296.24,837.34,null],
+  ["Apr 16",431.96,1296.24,837.34,null],
+  ["Apr 17",411.28,1296.24,837.34,null],
+  ["Apr 18",325.67,1296.24,837.34,null],
+  ["Apr 19",289.99,1296.24,837.34,null],
+  ["Apr 20",254.31,1296.24,837.34,null],
+  ["Apr 21",218.63,1296.24,837.34,null],
+  ["Apr 22",182.95,1296.24,837.34,null],
+  ["Apr 23",147.27,1296.24,837.34,null],
+  ["Apr 24",111.59,1296.24,837.34,null],
+  ["Apr 25",215.46,1207.36,837.34,null],
+  ["Apr 26",246.93,1207.36,837.34,null],
+  ["Apr 27",211.25,1207.36,837.34,null],
+  ["Apr 28",224.51,1207.36,837.34,null],
+  ["Apr 29",188.83,1207.36,837.34,null],
+  ["Apr 30",153.15,1207.36,837.34,null],
+  ["May 1",137.47,1207.36,837.34,null],
+  ["May 2",142.47,1207.36,837.34,null],
+  ["May 3",117.57,1207.36,837.34,null],
+  ["May 4",88.20,1207.36,837.34,null],
+  ["May 5",52.52,1207.36,837.34,null],
+  ["May 6",16.84,1207.36,837.34,null],
+  ["May 7",0,1188.52,837.34,null],
+  ["May 8",0,1147.84,837.34,null],
+  ["May 9",0,1050.96,837.34,null],
+  ["May 10",0,1010.28,837.34,null],
+  ["May 11",0,978.59,837.34,null],
+  ["May 12",0,963.89,837.34,null],
+  ["May 13",0,923.21,837.34,null],
+  ["May 14",0,882.53,837.34,null],
+  ["May 15",196.42,882.53,812.23,null],
+  ["May 16",201.42,882.53,812.23,null],
+  ["May 17",180.74,882.53,812.23,null],
+  ["May 18",145.06,882.53,812.23,null],
+  ["May 19",109.38,882.53,812.23,null],
+  ["May 20",73.70,882.53,812.23,null],
+  ["May 21",38.02,882.53,812.23,null],
+  ["May 22",2.34,882.53,812.23,null],
+  ["May 23",7.34,882.53,812.23,null],
+  ["May 24",0,854.19,812.23,null],
+  ["May 25",57.52,765.98,812.23,null],
+  ["May 26",88.99,765.98,812.23,null],
+  ["May 27",53.31,765.98,812.23,null],
+  ["May 28",66.57,765.98,812.23,null],
+  ["May 29",30.89,765.98,812.23,null],
+  ["May 30",35.89,765.98,812.23,null],
+  ["May 31",0.21,765.98,812.23,null],
+  ["Jun 1",0,750.51,812.23,null],
+  ["Jun 2",0,709.83,812.23,null],
+  ["Jun 3",0,679.93,812.23,null],
+  ["Jun 4",0,645.56,812.23,null],
+  ["Jun 5",0,604.88,812.23,null],
+  ["Jun 6",0,604.88,812.23,null],
+  ["Jun 7",0,564.20,812.23,null],
+  ["Jun 8",0,523.52,812.23,null],
+  ["Jun 9",0,482.84,812.23,null],
+  ["Jun 10",0,442.16,812.23,null],
+  ["Jun 11",0,410.47,812.23,null],
+  ["Jun 12",0,395.77,812.23,null],
+  ["Jun 13",0,395.77,812.23,null],
+  ["Jun 14",0,355.09,812.23,null],
+  ["Jun 15",196.42,355.09,787.12,null],
+  ["Jun 16",62.41,355.09,787.12,null],
+  ["Jun 17",41.73,355.09,787.12,null],
+  ["Jun 18",6.05,355.09,787.12,null],
+  ["Jun 19",0,325.46,787.12,null],
+  ["Jun 20",0,325.46,787.12,null],
+  ["Jun 21",0,284.78,787.12,null],
+  ["Jun 22",0,244.10,787.12,null],
+  ["Jun 23",0,95.45,787.12,null],
+  ["Jun 24",0,54.77,787.12,null],
+  ["Jun 25",24.08,0,787.12,null],
+  ["Jun 26",55.55,0,787.12,null],
+  ["Jun 27",60.55,0,787.12,null],
+  ["Jun 28",73.81,0,787.12,null],
+  ["Jun 29",38.13,0,787.12,null],
+  ["Jun 30",2.45,0,787.12,null],
+  ["Jul 1",0,0,773.89,null],
+  ["Jul 2",0,0,733.21,null],
+  ["Jul 3",0,0,703.31,null],
+  ["Jul 4",6.31,0,703.31,null],
+  ["Jul 5",0,0,673.94,null],
+  ["Jul 6",0,0,633.26,null],
+  ["Jul 7",0,0,592.58,null],
+  ["Jul 8",0,0,551.90,null],
+  ["Jul 9",0,0,511.22,null],
+  ["Jul 10",0,0,470.54,null],
+  ["Jul 11",8.99,0,470.54,null],
+  ["Jul 12",0,0,469.83,null],
+  ["Jul 13",0,0,429.15,null],
+  ["Jul 14",0,0,388.47,null],
+  ["Jul 15",196.42,0,363.36,null],
+  ["Jul 16",160.74,0,363.36,null],
+  ["Jul 17",140.06,0,363.36,null],
+  ["Jul 18",145.06,0,363.36,null],
+  ["Jul 19",109.38,0,363.36,null],
+  ["Jul 20",73.70,0,363.36,null],
+  ["Jul 21",38.02,0,363.36,null],
+  ["Jul 22",2.34,0,363.36,null],
+  ["Jul 23",0,0,330.02,null],
+  ["Jul 24",0,0,289.34,null],
+  ["Jul 25",9.99,0,289.34,null],
+  ["Jul 26",41.46,0,289.34,null],
+  ["Jul 27",5.78,0,289.34,null],
+  ["Jul 28",28.93,0,289.34,null],
+  ["Jul 29",0,0,282.59,null],
+  ["Jul 30",0,0,241.91,null],
+  ["Jul 31",0,0,201.23,null],
+  ["Aug 1",20.00,0,201.23,null],
+  ["Aug 2",0,0,185.55,null],
+  ["Aug 3",0,0,155.65,null],
+  ["Aug 4",0,0,121.28,null],
+  ["Aug 5",0,0,80.60,null],
+  ["Aug 6",0,0,39.92,null],
+  ["Aug 7",0,0,0,null],
+];
+
+// Show every 7th label to avoid clutter
+const labels = data.map((d,i) => (i % 7 === 0) ? d[0] : '');
+const xod = data.map(d => d[1]);
+const xflex = data.map(d => d[2]);
+const xmbna = data.map(d => d[3]);
+const actual = data.map(d => d[4]);
+
+// Milestone vertical lines
+const milestones = [
+  { label: 'OD Clears', date: 'May 7', color: '#ff3b3b' },
+  { label: 'Flex Clears', date: 'Jun 25', color: '#f5a623' },
+  { label: 'MBNA Clears', date: 'Aug 7', color: '#4fc3f7' },
+];
+
+const milestoneIndices = {
+  'May 7': data.findIndex(d => d[0] === 'May 7'),
+  'Jun 25': data.findIndex(d => d[0] === 'Jun 25'),
+  'Aug 7': data.findIndex(d => d[0] === 'Aug 7'),
+};
+
+const ctx = document.getElementById('chart').getContext('2d');
+
+// Vertical milestone annotation plugin
+const milestonePlugin = {
+  id: 'milestones',
+  afterDraw(chart) {
+    const { ctx, chartArea, scales } = chart;
+    const colors = { 'May 7': '#ff3b3b55', 'Jun 25': '#f5a62355', 'Aug 7': '#4fc3f755' };
+    const labels2 = { 'May 7': 'OD↓', 'Jun 25': 'FLEX↓', 'Aug 7': '🎂' };
+    Object.entries(milestoneIndices).forEach(([date, idx]) => {
+      if (idx < 0) return;
+      const x = scales.x.getPixelForValue(idx);
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = colors[date];
+      ctx.lineWidth = 1;
+      ctx.moveTo(x, chartArea.top);
+      ctx.lineTo(x, chartArea.bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = colors[date].replace('55', 'cc');
+      ctx.font = '700 10px Space Mono, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(labels2[date], x, chartArea.top + 12);
+      ctx.restore();
+    });
+  }
+};
+
+Chart.register(milestonePlugin);
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: data.map(d => d[0]),
+    datasets: [
+      {
+        label: 'OD Actual',
+        data: actual,
+        borderColor: '#ff3b3b',
+        backgroundColor: 'transparent',
+        borderWidth: 3,
+        pointRadius: (ctx) => actual[ctx.dataIndex] !== null ? 4 : 0,
+        pointBackgroundColor: '#ff3b3b',
+        spanGaps: false,
+        tension: 0.3,
+        order: 1,
+      },
+      {
+        label: 'OD Forecast',
+        data: xod,
+        borderColor: '#ff3b3b',
+        backgroundColor: 'transparent',
+        borderWidth: 1.5,
+        borderDash: [5, 5],
+        pointRadius: 0,
+        tension: 0.3,
+        order: 2,
+      },
+      {
+        label: 'Flex Forecast',
+        data: xflex,
+        borderColor: '#f5a623',
+        backgroundColor: 'transparent',
+        borderWidth: 1.5,
+        borderDash: [5, 5],
+        pointRadius: 0,
+        tension: 0.3,
+        order: 3,
+      },
+      {
+        label: 'MBNA Forecast',
+        data: xmbna,
+        borderColor: '#4fc3f7',
+        backgroundColor: 'transparent',
+        borderWidth: 1.5,
+        borderDash: [5, 5],
+        pointRadius: 0,
+        tension: 0.3,
+        order: 4,
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    animation: {
+      duration: 1200,
+      easing: 'easeInOutQuart',
+    },
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#111',
+        borderColor: '#333',
+        borderWidth: 1,
+        titleColor: '#888',
+        titleFont: { family: 'Space Mono', size: 10 },
+        bodyFont: { family: 'Space Mono', size: 11 },
+        bodyColor: '#e0e0e0',
+        padding: 10,
+        callbacks: {
+          title: (items) => items[0].label,
+          label: (item) => {
+            if (item.raw === null) return null;
+            const names = ['OD Actual', 'OD Forecast', 'Flex Forecast', 'MBNA Forecast'];
+            return ` ${names[item.datasetIndex]}: £${item.raw.toFixed(2)}`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#444',
+          font: { family: 'Space Mono', size: 9 },
+          maxRotation: 45,
+          autoSkip: true,
+          maxTicksLimit: 20,
+        },
+        grid: { color: '#161616' },
+        border: { color: '#222' },
+      },
+      y: {
+        min: 0,
+        max: 1500,
+        ticks: {
+          color: '#444',
+          font: { family: 'Space Mono', size: 9 },
+          callback: (v) => '£' + v,
+          stepSize: 250,
+        },
+        grid: { color: '#161616' },
+        border: { color: '#222' },
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
