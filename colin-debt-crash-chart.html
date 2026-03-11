@@ -7,583 +7,197 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0a0a0a;
-    --panel: #111;
-    --border: #222;
-    --od: #ff3b3b;
-    --flex: #f5a623;
-    --mbna: #4fc3f7;
-    --actual: #ff3b3b;
-    --xod: #ff3b3b44;
-    --grid: #1a1a1a;
-    --text: #fff;
-    --dim: #fff;
-    --green: #39ff14;
+    --bg: #0a0a0a; --panel: #111; --border: #222;
+    --od: #ff3b3b; --flex: #f5a623; --mbna: #4fc3f7; --total: #a78bfa;
+    --green: #39ff14; --pink: #ff6eb4;
+    --text: #e0e0e0; --dim: #555;
   }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem 1rem;
-  }
-
-  .header {
-    text-align: center;
-    margin-bottom: 2rem;
-    width: 100%;
-    max-width: 960px;
-  }
-
-  .title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.4rem, 4vw, 2rem);
-    letter-spacing: 0.1em;
-    line-height: 1;
-    background: linear-gradient(135deg, #ff3b3b 0%, #f5a623 50%, #4fc3f7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .subtitle {
-    font-size: 0.6rem;
-    color: var(--dim);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-top: 0.2rem;
-  }
-
-  .scoreboard {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    width: 100%;
-    max-width: 960px;
-    margin-bottom: 1px;
-  }
-
-  .score-cell {
-    background: var(--panel);
-    padding: 1rem;
-    text-align: center;
-  }
-
-  .score-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--dim);
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
-  }
-
-  .score-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    letter-spacing: 0.05em;
-  }
-
-  .score-date {
-    font-size: 0.6rem;
-    color: var(--dim);
-    margin-top: 0.2rem;
-  }
-
-  .od-val { color: var(--od); }
-  .flex-val { color: var(--flex); }
-  .mbna-val { color: var(--mbna); }
-
-  .chart-wrap {
-    width: 100%;
-    max-width: 960px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 1.5rem;
-    position: relative;
-  }
-
-  canvas {
-    width: 100% !important;
-  }
-
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.2rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    color: var(--dim);
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .legend-line {
-    width: 24px;
-    height: 2px;
-  }
-
-  .legend-dash {
-    width: 24px;
-    height: 2px;
-    background: repeating-linear-gradient(90deg, currentColor 0, currentColor 4px, transparent 4px, transparent 8px);
-  }
-
-  .milestone-labels {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-bottom: none;
-    width: 100%;
-    max-width: 960px;
-    margin-bottom: 0;
-  }
-
-  .milestone {
-    background: var(--bg);
-    padding: 0.8rem 1rem;
-    text-align: center;
-  }
-
-  .milestone-tag {
-    font-size: 0.55rem;
-    letter-spacing: 0.2em;
-    color: var(--dim);
-    text-transform: uppercase;
-  }
-
-  .milestone-date {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem;
-    margin-top: 0.2rem;
-  }
-
-  .milestone-sub {
-    font-size: 0.55rem;
-    color: var(--dim);
-    margin-top: 0.1rem;
-  }
-
-  .birthday-banner {
-    width: 100%;
-    max-width: 960px;
-    background: var(--green);
-    color: #000;
-    text-align: center;
-    padding: 0.8rem;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    letter-spacing: 0.15em;
-    margin-bottom: 2rem;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
+  .header { text-align: center; margin-bottom: 2rem; width: 100%; max-width: 980px; }
+  .title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 10vw, 6rem); letter-spacing: 0.05em; line-height: 1; background: linear-gradient(135deg, #ff3b3b 0%, #f5a623 50%, #4fc3f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .subtitle { font-size: 0.65rem; color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; margin-top: 0.4rem; }
+  .scoreboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); width: 100%; max-width: 980px; margin-bottom: 1px; }
+  .score-cell { background: var(--panel); padding: 1rem; text-align: center; }
+  .score-label { font-size: 0.6rem; letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .score-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; }
+  .score-sub { font-size: 0.6rem; color: var(--dim); margin-top: 0.2rem; }
+  .score-value.od { color: var(--od); }
+  .score-value.flex { color: var(--flex); }
+  .score-value.mbna { color: var(--mbna); }
+  .balances { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: none; width: 100%; max-width: 980px; margin-bottom: 1rem; }
+  .balance-cell { background: #0d0d0d; padding: 0.7rem 1rem; text-align: center; }
+  .balance-label { font-size: 0.55rem; letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; margin-bottom: 0.2rem; }
+  .balance-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; }
+  .balance-value.od { color: var(--od); }
+  .balance-value.flex { color: var(--flex); }
+  .balance-value.mbna { color: var(--mbna); }
+  .chart-container { width: 100%; max-width: 980px; background: var(--panel); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1rem; }
+  .legend { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .table-container { width: 100%; max-width: 980px; background: var(--panel); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2rem; }
+  .table-title { font-size: 0.6rem; letter-spacing: 0.3em; color: var(--dim); text-transform: uppercase; margin-bottom: 1rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.7rem; }
+  th { color: var(--dim); font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #161616; }
+  tr:last-child td { border-bottom: none; }
+  .event-airbnb { color: var(--green); }
+  .event-klarna { color: var(--pink); }
+  .event-flex { color: var(--flex); }
+  .birthday { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.2em; color: var(--mbna); padding: 1.5rem; border: 1px solid var(--border); width: 100%; max-width: 980px; margin-bottom: 2rem; }
 </style>
 </head>
 <body>
 
-<div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:0.15em;color:#00ff88;text-transform:uppercase;margin-bottom:0.2rem;padding-top:0.5rem;text-shadow:0 0 30px rgba(0,255,136,0.3);">
-  DEBTCRUSHER
-</div>
-<div style="text-align:center;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.3em;color:#fff;text-transform:uppercase;margin-bottom:0.5rem;">UPDATED: 8 MARCH 2026
-</div>
-
-<div class="milestone-labels">
-  <div class="milestone">
-    <div class="milestone-tag">OD Clears</div>
-    <div class="milestone-date" style="color:var(--od)">7 MAY</div>
-    <div class="milestone-sub">9 weeks on Thursday</div>
-  </div>
-  <div class="milestone">
-    <div class="milestone-tag">Flex Clears</div>
-    <div class="milestone-date" style="color:var(--flex)">25 JUN</div>
-    <div class="milestone-sub">16 weeks on Thursday</div>
-  </div>
-  <div class="milestone">
-    <div class="milestone-tag">MBNA Clears</div>
-    <div class="milestone-date" style="color:var(--mbna)">7 AUG</div>
-    <div class="milestone-sub">22 weeks on Friday 🎂</div>
-  </div>
+<div class="header">
+  <div class="title">DEBTCRUSHER</div>
+  <div class="subtitle">UPDATED: 11 MARCH 2026 · FLOOR: £20.34/SHIFT</div>
 </div>
 
 <div class="scoreboard">
   <div class="score-cell">
-    <div class="score-label">OD Now</div>
-    <div class="score-value od-val">£779.05</div>
-    <div class="score-date">8 Mar 2026</div>
+    <div class="score-label">OD Clears</div>
+    <div class="score-value od">20 APR</div>
+    <div class="score-sub">6 weeks · Monday</div>
   </div>
   <div class="score-cell">
-    <div class="score-label">Flex</div>
-    <div class="score-value flex-val">£1,385.90</div>
-    <div class="score-date">current</div>
+    <div class="score-label">Flex Clears</div>
+    <div class="score-value flex">8 JUN</div>
+    <div class="score-sub">13 weeks · Monday</div>
   </div>
   <div class="score-cell">
-    <div class="score-label">MBNA</div>
-    <div class="score-value mbna-val">£887.56</div>
-    <div class="score-date">current</div>
+    <div class="score-label">MBNA Clears</div>
+    <div class="score-value mbna">7 AUG</div>
+    <div class="score-sub">21 weeks · Friday 🎂</div>
   </div>
 </div>
 
-<div class="chart-wrap">
-  <canvas id="chart"></canvas>
+<div class="balances">
+  <div class="balance-cell">
+    <div class="balance-label">OD Now</div>
+    <div class="balance-value od">£750.87</div>
+    <div class="score-sub" style="margin-top:0.2rem">11 Mar 2026</div>
+  </div>
+  <div class="balance-cell">
+    <div class="balance-label">Flex</div>
+    <div class="balance-value flex">£1,595.64</div>
+    <div class="score-sub" style="margin-top:0.2rem">current</div>
+  </div>
+  <div class="balance-cell">
+    <div class="balance-label">MBNA</div>
+    <div class="balance-value mbna">£887.56</div>
+    <div class="score-sub" style="margin-top:0.2rem">current</div>
+  </div>
+</div>
+
+<div class="chart-container">
   <div class="legend">
-    <div class="legend-item">
-      <div class="legend-line" style="background:var(--od);"></div>
-      <span style="color:var(--od)">OD ACTUAL</span>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dash" style="color:var(--od);"></div>
-      <span>OD FORECAST</span>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dash" style="color:var(--flex);"></div>
-      <span style="color:var(--flex)">FLEX FORECAST</span>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dash" style="color:var(--mbna);"></div>
-      <span style="color:var(--mbna)">MBNA FORECAST</span>
-    </div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--od)"></div> OD</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--flex)"></div> Flex</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--mbna)"></div> MBNA</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--total)"></div> Total</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Airbnb</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--pink)"></div> Klarna</div>
   </div>
+  <canvas id="chart"></canvas>
 </div>
 
-<div class="birthday-banner">🎂 35TH BIRTHDAY — 7 AUGUST 2026 — DEBT FREE 🎂</div>
+<div class="table-container">
+  <div class="table-title">Payment Schedule</div>
+  <table>
+    <thead>
+      <tr><th>Date</th><th>Event</th><th>Amount</th><th>Effect</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>20 Mar</td><td class="event-klarna">Klarna</td><td>£56.00</td><td>→ OD</td></tr>
+      <tr><td>21 Mar</td><td class="event-airbnb">Airbnb</td><td>£94.00</td><td>→ Debts</td></tr>
+      <tr><td>25 Mar</td><td class="event-flex">Flex DD</td><td>£154.66</td><td>→ Flex</td></tr>
+      <tr><td>28 Mar</td><td class="event-klarna">Klarna</td><td>£48.94</td><td>→ OD</td></tr>
+      <tr><td>28 Mar</td><td class="event-airbnb">Airbnb</td><td>£94.00</td><td>→ Debts</td></tr>
+      <tr><td>11 Apr</td><td class="event-airbnb">Airbnb</td><td>£94.00</td><td>→ Debts</td></tr>
+      <tr><td>18 Apr</td><td class="event-airbnb">Airbnb</td><td>£94.00</td><td>→ Debts</td></tr>
+      <tr><td>25 Apr</td><td class="event-flex">Flex DD</td><td>£153.88</td><td>→ Flex</td></tr>
+      <tr><td>28 Apr</td><td class="event-klarna">Klarna</td><td>£48.94</td><td>→ OD</td></tr>
+      <tr><td>9 May</td><td class="event-airbnb">Airbnb</td><td>£96.88</td><td>→ Debts</td></tr>
+      <tr><td>16 May</td><td class="event-airbnb">Airbnb</td><td>£98.33</td><td>→ Debts</td></tr>
+      <tr><td>23 May</td><td class="event-airbnb">Airbnb</td><td>£107.97</td><td>→ Debts</td></tr>
+      <tr><td>25 May</td><td class="event-flex">Flex DD</td><td>£153.21</td><td>→ Flex</td></tr>
+      <tr><td>28 May</td><td class="event-klarna">Klarna</td><td>£48.94</td><td>→ OD</td></tr>
+      <tr><td>28 Jun</td><td class="event-klarna">Klarna</td><td>£48.94</td><td>→ OD</td></tr>
+      <tr><td>28 Jul</td><td class="event-klarna">Klarna</td><td>£48.94</td><td>→ OD</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="birthday">🎂 35TH BIRTHDAY — 7 AUGUST 2026 — DEBT FREE 🎂</div>
 
 <script>
-const data = [
-  ["Mar 6",808.34,1385.90,887.56,831.96],
-  ["Mar 7",800.43,1385.90,887.56,778.43],
-  ["Mar 8",764.75,1385.90,887.56,779.05],
-  ["Mar 9",769.75,1385.90,887.56,null],
-  ["Mar 10",774.75,1385.90,887.56,null],
-  ["Mar 11",748.06,1385.90,887.56,null],
-  ["Mar 12",738.36,1385.90,887.56,null],
-  ["Mar 13",702.68,1385.90,887.56,null],
-  ["Mar 14",707.68,1385.90,887.56,null],
-  ["Mar 15",909.10,1385.90,862.45,null],
-  ["Mar 16",873.42,1385.90,862.45,null],
-  ["Mar 17",852.74,1385.90,862.45,null],
-  ["Mar 18",817.06,1385.90,862.45,null],
-  ["Mar 19",781.38,1385.90,862.45,null],
-  ["Mar 20",801.70,1385.90,862.45,null],
-  ["Mar 21",806.70,1385.90,862.45,null],
-  ["Mar 22",771.02,1385.90,862.45,null],
-  ["Mar 23",735.34,1385.90,862.45,null],
-  ["Mar 24",699.66,1385.90,862.45,null],
-  ["Mar 25",763.63,1296.24,862.45,null],
-  ["Mar 26",795.10,1296.24,862.45,null],
-  ["Mar 27",759.42,1296.24,862.45,null],
-  ["Mar 28",813.36,1296.24,862.45,null],
-  ["Mar 29",777.68,1296.24,862.45,null],
-  ["Mar 30",742.00,1296.24,862.45,null],
-  ["Mar 31",706.32,1296.24,862.45,null],
-  ["Apr 1",690.64,1296.24,862.45,null],
-  ["Apr 2",654.96,1296.24,862.45,null],
-  ["Apr 3",630.06,1296.24,862.45,null],
-  ["Apr 4",641.37,1296.24,862.45,null],
-  ["Apr 5",605.69,1296.24,862.45,null],
-  ["Apr 6",570.01,1296.24,862.45,null],
-  ["Apr 7",534.33,1296.24,862.45,null],
-  ["Apr 8",498.65,1296.24,862.45,null],
-  ["Apr 9",462.97,1296.24,862.45,null],
-  ["Apr 10",427.29,1296.24,862.45,null],
-  ["Apr 11",347.28,1296.24,862.45,null],
-  ["Apr 12",337.58,1296.24,862.45,null],
-  ["Apr 13",301.90,1296.24,862.45,null],
-  ["Apr 14",266.22,1296.24,862.45,null],
-  ["Apr 15",467.64,1296.24,837.34,null],
-  ["Apr 16",431.96,1296.24,837.34,null],
-  ["Apr 17",411.28,1296.24,837.34,null],
-  ["Apr 18",325.67,1296.24,837.34,null],
-  ["Apr 19",289.99,1296.24,837.34,null],
-  ["Apr 20",254.31,1296.24,837.34,null],
-  ["Apr 21",218.63,1296.24,837.34,null],
-  ["Apr 22",182.95,1296.24,837.34,null],
-  ["Apr 23",147.27,1296.24,837.34,null],
-  ["Apr 24",111.59,1296.24,837.34,null],
-  ["Apr 25",215.46,1207.36,837.34,null],
-  ["Apr 26",246.93,1207.36,837.34,null],
-  ["Apr 27",211.25,1207.36,837.34,null],
-  ["Apr 28",224.51,1207.36,837.34,null],
-  ["Apr 29",188.83,1207.36,837.34,null],
-  ["Apr 30",153.15,1207.36,837.34,null],
-  ["May 1",137.47,1207.36,837.34,null],
-  ["May 2",142.47,1207.36,837.34,null],
-  ["May 3",117.57,1207.36,837.34,null],
-  ["May 4",88.20,1207.36,837.34,null],
-  ["May 5",52.52,1207.36,837.34,null],
-  ["May 6",16.84,1207.36,837.34,null],
-  ["May 7",0,1188.52,837.34,null],
-  ["May 8",0,1147.84,837.34,null],
-  ["May 9",0,1050.96,837.34,null],
-  ["May 10",0,1010.28,837.34,null],
-  ["May 11",0,978.59,837.34,null],
-  ["May 12",0,963.89,837.34,null],
-  ["May 13",0,923.21,837.34,null],
-  ["May 14",0,882.53,837.34,null],
-  ["May 15",196.42,882.53,812.23,null],
-  ["May 16",201.42,882.53,812.23,null],
-  ["May 17",180.74,882.53,812.23,null],
-  ["May 18",145.06,882.53,812.23,null],
-  ["May 19",109.38,882.53,812.23,null],
-  ["May 20",73.70,882.53,812.23,null],
-  ["May 21",38.02,882.53,812.23,null],
-  ["May 22",2.34,882.53,812.23,null],
-  ["May 23",7.34,882.53,812.23,null],
-  ["May 24",0,854.19,812.23,null],
-  ["May 25",57.52,765.98,812.23,null],
-  ["May 26",88.99,765.98,812.23,null],
-  ["May 27",53.31,765.98,812.23,null],
-  ["May 28",66.57,765.98,812.23,null],
-  ["May 29",30.89,765.98,812.23,null],
-  ["May 30",35.89,765.98,812.23,null],
-  ["May 31",0.21,765.98,812.23,null],
-  ["Jun 1",0,750.51,812.23,null],
-  ["Jun 2",0,709.83,812.23,null],
-  ["Jun 3",0,679.93,812.23,null],
-  ["Jun 4",0,645.56,812.23,null],
-  ["Jun 5",0,604.88,812.23,null],
-  ["Jun 6",0,604.88,812.23,null],
-  ["Jun 7",0,564.20,812.23,null],
-  ["Jun 8",0,523.52,812.23,null],
-  ["Jun 9",0,482.84,812.23,null],
-  ["Jun 10",0,442.16,812.23,null],
-  ["Jun 11",0,410.47,812.23,null],
-  ["Jun 12",0,395.77,812.23,null],
-  ["Jun 13",0,395.77,812.23,null],
-  ["Jun 14",0,355.09,812.23,null],
-  ["Jun 15",196.42,355.09,787.12,null],
-  ["Jun 16",62.41,355.09,787.12,null],
-  ["Jun 17",41.73,355.09,787.12,null],
-  ["Jun 18",6.05,355.09,787.12,null],
-  ["Jun 19",0,325.46,787.12,null],
-  ["Jun 20",0,325.46,787.12,null],
-  ["Jun 21",0,284.78,787.12,null],
-  ["Jun 22",0,244.10,787.12,null],
-  ["Jun 23",0,95.45,787.12,null],
-  ["Jun 24",0,54.77,787.12,null],
-  ["Jun 25",24.08,0,787.12,null],
-  ["Jun 26",55.55,0,787.12,null],
-  ["Jun 27",60.55,0,787.12,null],
-  ["Jun 28",73.81,0,787.12,null],
-  ["Jun 29",38.13,0,787.12,null],
-  ["Jun 30",2.45,0,787.12,null],
-  ["Jul 1",0,0,773.89,null],
-  ["Jul 2",0,0,733.21,null],
-  ["Jul 3",0,0,703.31,null],
-  ["Jul 4",6.31,0,703.31,null],
-  ["Jul 5",0,0,673.94,null],
-  ["Jul 6",0,0,633.26,null],
-  ["Jul 7",0,0,592.58,null],
-  ["Jul 8",0,0,551.90,null],
-  ["Jul 9",0,0,511.22,null],
-  ["Jul 10",0,0,470.54,null],
-  ["Jul 11",8.99,0,470.54,null],
-  ["Jul 12",0,0,469.83,null],
-  ["Jul 13",0,0,429.15,null],
-  ["Jul 14",0,0,388.47,null],
-  ["Jul 15",196.42,0,363.36,null],
-  ["Jul 16",160.74,0,363.36,null],
-  ["Jul 17",140.06,0,363.36,null],
-  ["Jul 18",145.06,0,363.36,null],
-  ["Jul 19",109.38,0,363.36,null],
-  ["Jul 20",73.70,0,363.36,null],
-  ["Jul 21",38.02,0,363.36,null],
-  ["Jul 22",2.34,0,363.36,null],
-  ["Jul 23",0,0,330.02,null],
-  ["Jul 24",0,0,289.34,null],
-  ["Jul 25",9.99,0,289.34,null],
-  ["Jul 26",41.46,0,289.34,null],
-  ["Jul 27",5.78,0,289.34,null],
-  ["Jul 28",28.93,0,289.34,null],
-  ["Jul 29",0,0,282.59,null],
-  ["Jul 30",0,0,241.91,null],
-  ["Jul 31",0,0,201.23,null],
-  ["Aug 1",20.00,0,201.23,null],
-  ["Aug 2",0,0,185.55,null],
-  ["Aug 3",0,0,155.65,null],
-  ["Aug 4",0,0,121.28,null],
-  ["Aug 5",0,0,80.60,null],
-  ["Aug 6",0,0,39.92,null],
-  ["Aug 7",0,0,0,null],
-];
+const labels = ["11 Mar","12 Mar","13 Mar","14 Mar","15 Mar","16 Mar","17 Mar","18 Mar","19 Mar","20 Mar","21 Mar","22 Mar","23 Mar","24 Mar","25 Mar","26 Mar","27 Mar","28 Mar","29 Mar","30 Mar","31 Mar","1 Apr","2 Apr","3 Apr","4 Apr","5 Apr","6 Apr","7 Apr","8 Apr","9 Apr","10 Apr","11 Apr","12 Apr","13 Apr","14 Apr","15 Apr","16 Apr","17 Apr","18 Apr","19 Apr","20 Apr","21 Apr","22 Apr","23 Apr","24 Apr","25 Apr","26 Apr","27 Apr","28 Apr","29 Apr","30 Apr","1 May","2 May","3 May","4 May","5 May","6 May","7 May","8 May","9 May","10 May","11 May","12 May","13 May","14 May","15 May","16 May","17 May","18 May","19 May","20 May","21 May","22 May","23 May","24 May","25 May","26 May","27 May","28 May","29 May","30 May","31 May","1 Jun","2 Jun","3 Jun","4 Jun","5 Jun","6 Jun","7 Jun","8 Jun","9 Jun","10 Jun","11 Jun","12 Jun","13 Jun","14 Jun","15 Jun","16 Jun","17 Jun","18 Jun","19 Jun","20 Jun","21 Jun","22 Jun","23 Jun","24 Jun","25 Jun","26 Jun","27 Jun","28 Jun","29 Jun","30 Jun","1 Jul","2 Jul","3 Jul","4 Jul","5 Jul","6 Jul","7 Jul","8 Jul","9 Jul","10 Jul","11 Jul","12 Jul","13 Jul","14 Jul","15 Jul","16 Jul","17 Jul","18 Jul","19 Jul","20 Jul","21 Jul","22 Jul","23 Jul","24 Jul","25 Jul","26 Jul","27 Jul","28 Jul","29 Jul","30 Jul","31 Jul","1 Aug","2 Aug","3 Aug","4 Aug","5 Aug","6 Aug","7 Aug"];
+const odData = [750.87,741.17,705.49,710.49,886.8,885.92,850.24,814.56,778.88,799.2,710.2,674.52,638.84,603.16,577.47,608.94,573.26,533.2,497.52,461.84,426.16,410.48,374.8,349.9,361.21,344.48,308.8,273.12,237.44,201.76,166.08,86.07,76.37,40.69,5.01,181.32,180.44,144.76,55.76,20.08,0,0,0,0,0,14.99,46.46,10.78,24.04,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,176.31,117.78,82.1,46.42,10.74,0,0,0,0,0,0,31.47,0,13.26,0,5,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,176.31,175.43,139.75,104.07,68.39,73.39,37.71,2.03,0,0,0,31.47,36.47,49.73,14.05,0,0,0,0,11.31,0,0,0,0,0,0,13.99,4.29,0,0,176.31,175.43,139.75,144.75,109.07,73.39,37.71,2.03,0,0,14.99,46.46,10.78,24.04,0,0,0,25,0,0,0,0,0,0];
+const flexData = [1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1595.64,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1440.98,1425.38,1389.7,1354.02,1318.34,1282.66,1128.78,1128.78,1128.78,1128.78,1117.14,1081.46,1065.78,1065.78,1045.88,1016.51,999.78,964.1,928.42,892.74,800.86,765.18,738.49,728.79,693.11,657.43,657.43,657.43,657.43,657.43,657.43,632.49,596.81,561.13,458.16,422.48,243.58,243.58,239.37,239.37,216.95,216.95,186.27,170.59,134.91,110.01,80.64,63.91,63.91,33.23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+const mbnaData = [887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,887.56,885.11,849.43,813.75,787.06,777.36,777.36,746.68,746.68,746.68,746.68,746.68,746.68,746.68,746.68,746.68,713.03,677.35,651.66,651.66,651.66,651.66,651.66,630.03,614.35,578.67,553.77,553.77,548.35,512.67,476.99,441.31,405.63,369.95,369.95,369.95,338.56,302.88,302.88,302.88,302.88,302.88,302.88,302.88,302.88,302.88,269.23,233.55,233.55,233.55,233.55,233.55,221.91,186.23,150.55,150.55,139.87,114.97,85.6,68.87,33.19,0];
+const totalData = [3234.07,3224.37,3188.69,3193.69,3370,3369.12,3333.44,3297.76,3262.08,3282.4,3193.4,3157.72,3122.04,3086.36,2906.01,2937.48,2901.8,2861.74,2826.06,2790.38,2754.7,2739.02,2703.34,2678.44,2689.75,2673.02,2637.34,2601.66,2565.98,2530.3,2494.62,2414.61,2404.91,2369.23,2333.55,2509.86,2508.98,2473.3,2384.3,2348.62,2312.94,2277.26,2241.58,2205.9,2170.22,2031.33,2062.8,2027.12,2040.38,2004.7,1969.02,1953.34,1958.34,1933.44,1904.07,1887.34,1851.66,1815.98,1780.3,1688.42,1652.74,1626.05,1616.35,1580.67,1544.99,1721.3,1662.77,1627.09,1591.41,1555.73,1520.05,1484.37,1448.69,1345.72,1310.04,1131.14,1162.61,1126.93,1140.19,1104.51,1109.51,1073.83,1058.15,1022.47,997.57,968.2,951.47,956.47,920.79,885.11,849.43,813.75,787.06,777.36,782.36,746.68,922.99,922.11,886.43,850.75,815.07,820.07,784.39,748.71,713.03,677.35,651.66,683.13,688.13,701.39,665.71,630.03,614.35,578.67,553.77,565.08,548.35,512.67,476.99,441.31,405.63,369.95,383.94,374.24,338.56,302.88,479.19,478.31,442.63,447.63,411.95,376.27,340.59,304.91,269.23,233.55,248.54,280.01,244.33,257.59,221.91,186.23,150.55,175.55,139.87,114.97,85.6,68.87,33.19,0];
 
-// Show every 7th label to avoid clutter
-const labels = data.map((d,i) => (i % 7 === 0) ? d[0] : '');
-const xod = data.map(d => d[1]);
-const xflex = data.map(d => d[2]);
-const xmbna = data.map(d => d[3]);
-const actual = data.map(d => d[4]);
-
-// Milestone vertical lines
-const milestones = [
-  { label: 'OD Clears', date: 'May 7', color: '#ff3b3b' },
-  { label: 'Flex Clears', date: 'Jun 25', color: '#f5a623' },
-  { label: 'MBNA Clears', date: 'Aug 7', color: '#4fc3f7' },
-];
-
-const milestoneIndices = {
-  'May 7': data.findIndex(d => d[0] === 'May 7'),
-  'Jun 25': data.findIndex(d => d[0] === 'Jun 25'),
-  'Aug 7': data.findIndex(d => d[0] === 'Aug 7'),
-};
+const airbnbDates = ["2026-03-21","2026-03-28","2026-04-11","2026-04-18","2026-05-09","2026-05-16","2026-05-23"];
+const klarnaDates = ["2026-03-20","2026-03-28","2026-04-28","2026-05-28","2026-06-28","2026-07-28"];
+const startDate = new Date('2026-03-11');
+function dateToIndex(iso) { return Math.round((new Date(iso) - startDate) / 86400000); }
+const odClearIdx = 40;
+const flexClearIdx = 89;
 
 const ctx = document.getElementById('chart').getContext('2d');
-
-// Vertical milestone annotation plugin
-const milestonePlugin = {
-  id: 'milestones',
-  afterDraw(chart) {
-    const { ctx, chartArea, scales } = chart;
-    const colors = { 'May 7': '#ff3b3b55', 'Jun 25': '#f5a62355', 'Aug 7': '#4fc3f755' };
-    const labels2 = { 'May 7': 'OD↓', 'Jun 25': 'FLEX↓', 'Aug 7': '🎂' };
-    Object.entries(milestoneIndices).forEach(([date, idx]) => {
-      if (idx < 0) return;
-      const x = scales.x.getPixelForValue(idx);
-      ctx.save();
-      ctx.beginPath();
-      ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = colors[date];
-      ctx.lineWidth = 1;
-      ctx.moveTo(x, chartArea.top);
-      ctx.lineTo(x, chartArea.bottom);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.fillStyle = colors[date].replace('55', 'cc');
-      ctx.font = '700 10px Space Mono, monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText(labels2[date], x, chartArea.top + 12);
-      ctx.restore();
-    });
-  }
-};
-
-Chart.register(milestonePlugin);
-
 new Chart(ctx, {
   type: 'line',
-  data: {
-    labels: data.map(d => d[0]),
-    datasets: [
-      {
-        label: 'OD Actual',
-        data: actual,
-        borderColor: '#ff3b3b',
-        backgroundColor: 'transparent',
-        borderWidth: 3,
-        pointRadius: (ctx) => actual[ctx.dataIndex] !== null ? 4 : 0,
-        pointBackgroundColor: '#ff3b3b',
-        spanGaps: false,
-        tension: 0.3,
-        order: 1,
-      },
-      {
-        label: 'OD Forecast',
-        data: xod,
-        borderColor: '#ff3b3b',
-        backgroundColor: 'transparent',
-        borderWidth: 1.5,
-        borderDash: [5, 5],
-        pointRadius: 0,
-        tension: 0.3,
-        order: 2,
-      },
-      {
-        label: 'Flex Forecast',
-        data: xflex,
-        borderColor: '#f5a623',
-        backgroundColor: 'transparent',
-        borderWidth: 1.5,
-        borderDash: [5, 5],
-        pointRadius: 0,
-        tension: 0.3,
-        order: 3,
-      },
-      {
-        label: 'MBNA Forecast',
-        data: xmbna,
-        borderColor: '#4fc3f7',
-        backgroundColor: 'transparent',
-        borderWidth: 1.5,
-        borderDash: [5, 5],
-        pointRadius: 0,
-        tension: 0.3,
-        order: 4,
-      },
-    ]
-  },
+  data: { labels, datasets: [
+    { label: 'OD', data: odData, borderColor: '#ff3b3b', backgroundColor: 'rgba(255,59,59,0.05)', borderWidth: 2, pointRadius: 0, tension: 0.3, fill: true },
+    { label: 'Flex', data: flexData, borderColor: '#f5a623', backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 0, tension: 0.3 },
+    { label: 'MBNA', data: mbnaData, borderColor: '#4fc3f7', backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 0, tension: 0.3 },
+    { label: 'Total', data: totalData, borderColor: '#a78bfa', backgroundColor: 'transparent', borderWidth: 1, borderDash: [4,4], pointRadius: 0, tension: 0.3 },
+  ]},
   options: {
     responsive: true,
-    animation: {
-      duration: 1200,
-      easing: 'easeInOutQuart',
-    },
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
+    animation: { duration: 1200, easing: 'easeInOutQuart' },
+    interaction: { mode: 'index', intersect: false },
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: '#111',
-        borderColor: '#333',
-        borderWidth: 1,
-        titleColor: '#888',
-        titleFont: { family: 'Space Mono', size: 10 },
-        bodyFont: { family: 'Space Mono', size: 11 },
-        bodyColor: '#e0e0e0',
-        padding: 10,
-        callbacks: {
-          title: (items) => items[0].label,
-          label: (item) => {
-            if (item.raw === null) return null;
-            const names = ['OD Actual', 'OD Forecast', 'Flex Forecast', 'MBNA Forecast'];
-            return ` ${names[item.datasetIndex]}: £${item.raw.toFixed(2)}`;
-          }
-        }
+        backgroundColor: '#111', borderColor: '#333', borderWidth: 1,
+        titleColor: '#888', titleFont: { family: 'Space Mono', size: 10 },
+        bodyFont: { family: 'Space Mono', size: 11 }, bodyColor: '#e0e0e0', padding: 10,
+        callbacks: { label: (item) => item.raw != null ? ` ${item.dataset.label}: £${item.raw.toFixed(2)}` : null }
       }
     },
     scales: {
-      x: {
-        ticks: {
-          color: '#ccc',
-          font: { family: 'Space Mono', size: 9 },
-          maxRotation: 45,
-          autoSkip: true,
-          maxTicksLimit: 20,
-        },
-        grid: { color: '#161616' },
-        border: { color: '#222' },
-      },
-      y: {
-        min: 0,
-        max: 1500,
-        ticks: {
-          color: '#ccc',
-          font: { family: 'Space Mono', size: 9 },
-          callback: (v) => '£' + v,
-          stepSize: 250,
-        },
-        grid: { color: '#161616' },
-        border: { color: '#222' },
-      }
+      x: { ticks: { color: '#444', font: { family: 'Space Mono', size: 9 }, maxRotation: 45, autoSkip: true, maxTicksLimit: 24 }, grid: { color: '#161616' }, border: { color: '#222' } },
+      y: { min: 0, ticks: { color: '#444', font: { family: 'Space Mono', size: 9 }, callback: v => '£' + v }, grid: { color: '#161616' }, border: { color: '#222' } }
     }
-  }
+  },
+  plugins: [{
+    id: 'milestones',
+    afterDraw(chart) {
+      const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
+      function drawLine(idx, color, label) {
+        const xPos = x.getPixelForValue(idx);
+        ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash([4,4]); ctx.globalAlpha = 0.6;
+        ctx.beginPath(); ctx.moveTo(xPos, top); ctx.lineTo(xPos, bottom); ctx.stroke();
+        ctx.globalAlpha = 1; ctx.fillStyle = color; ctx.font = '9px Space Mono'; ctx.textAlign = 'center';
+        ctx.fillText(label, xPos, top + 10); ctx.restore();
+      }
+      function drawEventMarkers(dates, color, symbol) {
+        dates.forEach(iso => {
+          const xPos = x.getPixelForValue(dateToIndex(iso));
+          ctx.save(); ctx.fillStyle = color; ctx.font = '10px Space Mono'; ctx.textAlign = 'center';
+          ctx.fillText(symbol, xPos, bottom - 5); ctx.restore();
+        });
+      }
+      drawLine(odClearIdx, '#ff3b3b', 'OD £0');
+      drawLine(flexClearIdx, '#f5a623', 'FLEX £0');
+      drawEventMarkers(airbnbDates, '#39ff14', '▲');
+      drawEventMarkers(klarnaDates, '#ff6eb4', '▼');
+    }
+  }]
 });
 </script>
 </body>
