@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEBT CRASH — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #888;
+    --dim: #444;
+    --red: #e24b4a;
+    --amber: #ef9f27;
+    --blue: #378add;
+    --green: #1d9e75;
+    --white: #ffffff;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .header { margin-bottom: 2rem; }
+  .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 72px);
+    letter-spacing: 6px;
+    color: var(--white);
+    line-height: 1;
+  }
+  .title span { color: var(--red); }
+  .subtitle {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  .countdown {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 1.5rem 0;
+    padding: 1rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+  }
+  .countdown-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--green);
+    line-height: 1;
+  }
+  .countdown-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .card.od::before { background: var(--red); }
+  .card.flex::before { background: var(--amber); }
+  .card.mbna::before { background: var(--blue); }
+  .card-label { font-size: 9px; letter-spacing: 3px; color: var(--muted); margin-bottom: 6px; }
+  .card-val { font-size: 22px; font-weight: 700; color: var(--white); }
+  .card-sub { font-size: 9px; color: var(--dim); margin-top: 6px; letter-spacing: 1px; }
+  .card-date { font-size: 10px; margin-top: 4px; }
+  .card.od .card-date { color: var(--red); }
+  .card.flex .card-date { color: var(--amber); }
+  .card.mbna .card-date { color: var(--blue); }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .bar-row { margin-bottom: 14px; }
+  .bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+  }
+  .bar-meta .pct { font-weight: 700; color: var(--text); }
+  .bar-track {
+    height: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; transition: width 0.6s ease; }
+  .bar-row.total .bar-fill { background: var(--white); }
+  .bar-row.od .bar-fill { background: var(--red); }
+  .bar-row.flex .bar-fill { background: var(--amber); }
+  .bar-row.mbna .bar-fill { background: var(--blue); }
+
+  .milestones { display: flex; flex-direction: column; gap: 10px; }
+  .milestone {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    padding: 10px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .ms-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .ms-name { color: var(--muted); flex: 1; letter-spacing: 1px; }
+  .ms-date { font-weight: 700; }
+  .ms-gap { font-size: 9px; color: var(--dim); margin-left: 8px; }
+  .milestone.od .ms-date { color: var(--red); }
+  .milestone.flex .ms-date { color: var(--amber); }
+  .milestone.mbna .ms-date { color: var(--blue); }
+  .milestone.birthday .ms-date { color: var(--green); }
+
+  .next-hit {
+    margin-top: 1.5rem;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+  }
+  .next-hit-label { color: var(--muted); letter-spacing: 1px; }
+  .next-hit-val { font-weight: 700; color: var(--amber); }
+
+  .floor-badge {
+    margin-top: 1rem;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .floor-badge span { color: var(--muted); letter-spacing: 1px; }
+  .floor-badge strong { color: var(--green); }
+
+  .updated {
+    margin-top: 2rem;
+    font-size: 9px;
+    color: var(--dim);
+    letter-spacing: 2px;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title">DEBT <span>CRASH</span></div>
+  <div class="subtitle">Edinburgh · Target: 7 August 2026 · £25/shift minimum</div>
+</div>
+
+<div class="countdown">
+  <div class="countdown-num" id="days-count">146</div>
+  <div>
+    <div style="font-size:14px;font-weight:700;color:#fff;">days to freedom</div>
+    <div class="countdown-label">7 Aug 2026 — 35th Birthday</div>
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card od">
+    <div class="card-label">OVERDRAFT</div>
+    <div class="card-val">£810.68</div>
+    <div class="card-sub">baseline £825.73</div>
+    <div class="card-date">clears ~11 Apr</div>
+  </div>
+  <div class="card flex">
+    <div class="card-label">FLEX</div>
+    <div class="card-val">£1,650.25</div>
+    <div class="card-sub">baseline £1,650.25</div>
+    <div class="card-date">clears ~10 Jun</div>
+  </div>
+  <div class="card mbna">
+    <div class="card-label">MBNA</div>
+    <div class="card-val">£887.56</div>
+    <div class="card-sub">baseline £887.56</div>
+    <div class="card-date">clears ~23 Jul</div>
+  </div>
+</div>
+
+<div class="section-label">Progress</div>
+
+<div class="bar-row total">
+  <div class="bar-meta">
+    <span>TOTAL — £3,348.49</span>
+    <span class="pct">1% cleared</span>
+  </div>
+  <div class="bar-track"><div class="bar-fill" style="width:1%"></div></div>
+</div>
+<div class="bar-row od">
+  <div class="bar-meta">
+    <span>OD — £810.68 remaining</span>
+    <span class="pct">2% cleared</span>
+  </div>
+  <div class="bar-track"><div class="bar-fill" style="width:2%"></div></div>
+</div>
+<div class="bar-row flex">
+  <div class="bar-meta">
+    <span>FLEX — £1,650.25 remaining</span>
+    <span class="pct">0% cleared</span>
+  </div>
+  <div class="bar-track"><div class="bar-fill" style="width:0.5%"></div></div>
+</div>
+<div class="bar-row mbna">
+  <div class="bar-meta">
+    <span>MBNA — £887.56 remaining</span>
+    <span class="pct">0% cleared</span>
+  </div>
+  <div class="bar-track"><div class="bar-fill" style="width:0.5%"></div></div>
+</div>
+
+<div class="section-label">Milestones</div>
+
+<div class="milestones">
+  <div class="milestone od">
+    <div class="ms-dot" style="background:#e24b4a"></div>
+    <div class="ms-name">OD CLEARED</div>
+    <div class="ms-date">11 Apr 2026</div>
+    <div class="ms-gap">~28 days</div>
+  </div>
+  <div class="milestone flex">
+    <div class="ms-dot" style="background:#ef9f27"></div>
+    <div class="ms-name">FLEX CLEARED</div>
+    <div class="ms-date">10 Jun 2026</div>
+    <div class="ms-gap">~88 days</div>
+  </div>
+  <div class="milestone mbna">
+    <div class="ms-dot" style="background:#378add"></div>
+    <div class="ms-name">MBNA CLEARED</div>
+    <div class="ms-date">23 Jul 2026</div>
+    <div class="ms-gap">~131 days</div>
+  </div>
+  <div class="milestone birthday">
+    <div class="ms-dot" style="background:#1d9e75"></div>
+    <div class="ms-name">35TH BIRTHDAY — DEBT FREE</div>
+    <div class="ms-date">7 Aug 2026 🎂</div>
+    <div class="ms-gap">15 days early!</div>
+  </div>
+</div>
+
+<div class="next-hit">
+  <span class="next-hit-label">NEXT HIT</span>
+  <span class="next-hit-val">Council Tax + Guardian £211.99 · Sun 15 Mar</span>
+</div>
+
+<div class="floor-badge">
+  <span>SHIFT MINIMUM</span>
+  <strong>£25.00 per shift</strong>
+</div>
+
+<div class="updated">Last updated: 14 Mar 2026</div>
+
+<script>
+  const birthday = new Date('2026-08-07');
+  const today = new Date();
+  const diff = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
+  document.getElementById('days-count').textContent = diff > 0 ? diff : '🎂';
+</script>
+
+</body>
+</html>
