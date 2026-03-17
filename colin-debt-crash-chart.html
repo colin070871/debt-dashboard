@@ -168,24 +168,24 @@
     <table>
       <thead><tr><th>Date</th><th>Event</th><th>Amount</th><th>Effect</th></tr></thead>
       <tbody>
-        <tr><td>18 Mar</td><td><span class="tag virgin">Virgin DD</span></td><td>£25.00</td><td>→ OD</td></tr>
-        <tr><td>19 Mar</td><td><span class="tag mbna">MBNA DD</span></td><td>£25.00</td><td>→ OD</td></tr>
+        <tr><td>18 Mar</td><td><span class="tag virgin">Virgin DD</span></td><td>£25.00</td><td>→ OD (min payment)</td></tr>
+        <tr><td>19 Mar</td><td><span class="tag mbna">MBNA DD</span></td><td>£25.00</td><td>→ OD (min payment)</td></tr>
         <tr><td>20 Mar</td><td><span class="tag klarna">Klarna</span></td><td>£56.00</td><td>→ OD</td></tr>
-        <tr><td>21 Mar</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>→ Debts</td></tr>
-        <tr><td>25 Mar</td><td><span class="tag flex-dd">Flex DD</span></td><td>£154.66</td><td>→ Flex</td></tr>
+        <tr><td>21 Mar</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>→ OD</td></tr>
+        <tr><td>25 Mar</td><td><span class="tag flex-dd">Flex DD</span></td><td>£154.66</td><td>↓ Flex balance</td></tr>
         <tr><td>28 Mar</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>→ OD</td></tr>
-        <tr><td>28 Mar</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>→ Debts</td></tr>
-        <tr><td>11 Apr</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>→ Debts</td></tr>
-        <tr><td>18 Apr</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>→ Debts</td></tr>
-        <tr><td>25 Apr</td><td><span class="tag flex-dd">Flex DD</span></td><td>£153.88</td><td>→ Flex</td></tr>
-        <tr><td>28 Apr</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>→ Flex</td></tr>
+        <tr><td>28 Mar</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>→ OD</td></tr>
+        <tr><td>11 Apr</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>→ OD</td></tr>
+        <tr><td>18 Apr</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>↓ Flex balance</td></tr>
+        <tr><td>25 Apr</td><td><span class="tag flex-dd">Flex DD</span></td><td>£153.88</td><td>↓ Flex balance</td></tr>
+        <tr><td>28 Apr</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ Flex balance</td></tr>
         <tr><td>9 May</td><td><span class="tag excl">Airbnb (holiday cash)</span></td><td>£96.88</td><td>excl.</td></tr>
         <tr><td>16 May</td><td><span class="tag excl">Airbnb (holiday cash)</span></td><td>£98.33</td><td>excl.</td></tr>
         <tr><td>23 May</td><td><span class="tag excl">Airbnb (holiday cash)</span></td><td>£107.97</td><td>excl.</td></tr>
-        <tr><td>25 May</td><td><span class="tag flex-dd">Flex DD</span></td><td>£153.21</td><td>→ Flex</td></tr>
-        <tr><td>28 May</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>→ Flex</td></tr>
-        <tr><td>28 Jun</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>→ Flex/MBNA</td></tr>
-        <tr><td>28 Jul</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>→ MBNA/Virgin</td></tr>
+        <tr><td>25 May</td><td><span class="tag flex-dd">Flex DD</span></td><td>£153.21</td><td>↓ Flex balance</td></tr>
+        <tr><td>28 May</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ Flex balance</td></tr>
+        <tr><td>28 Jun</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ Flex/MBNA</td></tr>
+        <tr><td>28 Jul</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ MBNA/Virgin</td></tr>
       </tbody>
     </table>
   </div>
@@ -197,7 +197,7 @@
   <div class="bday-sub">Virgin clears on the day · ya absolute machine · keep fucking going</div>
 </div>
 
-<div class="updated">Last updated: 17 Mar 2026 · £22.53/shift · Virgin DD 18th · MBNA DD 19th monthly</div>
+<div class="updated">Last updated: 17 Mar 2026 · £22.53/shift · all debt lines only go down</div>
 
 <script>
 const labels = [
@@ -207,13 +207,25 @@ const labels = [
   '4 Jul','11 Jul','18 Jul','25 Jul','7 Aug'
 ];
 
-const od     = [706,503,365,178,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-const flex   = [1675,1675,1830,1985,1805,1715,1376,1240,1015,793,638,415,192,68,0,0,0,0,0,0,0];
-const mbna   = [888,888,888,888,888,888,888,888,888,888,888,888,888,888,888,710,490,268,98,0,0];
-const virgin = [300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,190,0];
-const total  = labels.map((_,i) => od[i]+flex[i]+mbna[i]+virgin[i]);
+// OD: decreases via shifts, gets hit by bills/drag, clears ~13 Apr
+const od = [706, 503, 365, 178, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-const airbnbEvents = {'21 Mar':94,'28 Mar':94,'13 Apr':94,'18 Apr':94};
+// FLEX: only ever decreases
+// Mar 25 DD -£154.66 brings it from 1675 → 1520
+// OD clears 13 Apr, shifts then attack Flex
+// Apr 25 DD -£153.88, May 25 DD -£153.21
+// Clears ~13 Jun
+const flex = [1675, 1675, 1520, 1520, 1520, 1430, 1120, 880, 640, 490, 290, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+// MBNA: flat until Flex gone, then decreases, clears ~27 Jul
+const mbna = [888, 888, 888, 888, 888, 888, 888, 888, 888, 888, 888, 888, 888, 888, 888, 700, 490, 270, 100, 0, 0];
+
+// Virgin: flat until MBNA gone, clears 7 Aug
+const virgin = [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 195, 0];
+
+const total = labels.map((_, i) => od[i] + flex[i] + mbna[i] + virgin[i]);
+
+const airbnbEvents = {'21 Mar':94,'28 Mar':94,'11 Apr':94,'18 Apr':94};
 const klarnaEvents = {'20 Mar':56,'28 Mar':48.94,'28 Apr':48.94,'28 May':48.94,'28 Jun':48.94,'28 Jul':48.94};
 const airbnbData = labels.map(l => airbnbEvents[l] || null);
 const klarnaData = labels.map(l => klarnaEvents[l] || null);
