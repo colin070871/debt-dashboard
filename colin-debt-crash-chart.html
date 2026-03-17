@@ -75,6 +75,8 @@
   .tag.klarna { color: var(--teal); border: 1px solid var(--teal); }
   .tag.flex-dd { color: var(--amber); border: 1px solid var(--amber); }
   .tag.excl { color: var(--dim); border: 1px solid var(--dim); }
+  .tag.virgin { color: var(--purple); border: 1px solid var(--purple); }
+  .tag.mbna { color: var(--blue); border: 1px solid var(--blue); }
 
   .birthday-footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); }
   .bday-main { font-family: 'Bebas Neue', sans-serif; font-size: clamp(18px,4vw,28px); letter-spacing: 3px; color: var(--green); }
@@ -92,7 +94,7 @@
 
 <div class="hero">
   <div class="hero-title">DEBT<span>CRUSHER</span></div>
-  <div class="hero-sub">UPDATED: 17 MARCH 2026 · FLOOR: <strong>£22.53/SHIFT</strong> · OD CLEARS ~9 APR</div>
+  <div class="hero-sub">UPDATED: 17 MARCH 2026 · FLOOR: <strong>£22.53/SHIFT</strong> · OD CLEARS ~13 APR · VIRGIN CLEARS 7 AUG 🎂</div>
 </div>
 
 <div class="main">
@@ -100,18 +102,18 @@
   <div class="milestones">
     <div class="ms-card od">
       <div class="ms-label">OD Clears</div>
-      <div class="ms-date">9 APR</div>
-      <div class="ms-detail">~23 days</div>
+      <div class="ms-date">13 APR</div>
+      <div class="ms-detail">~27 days</div>
     </div>
     <div class="ms-card flex">
       <div class="ms-label">Flex Clears</div>
-      <div class="ms-date">12 JUN</div>
-      <div class="ms-detail">~87 days</div>
+      <div class="ms-date">13 JUN</div>
+      <div class="ms-detail">~88 days</div>
     </div>
     <div class="ms-card mbna">
       <div class="ms-label">MBNA Clears</div>
-      <div class="ms-date">26 JUL</div>
-      <div class="ms-detail">~131 days</div>
+      <div class="ms-date">27 JUL</div>
+      <div class="ms-detail">~132 days</div>
     </div>
     <div class="ms-card virgin">
       <div class="ms-label">Virgin Clears</div>
@@ -166,6 +168,8 @@
     <table>
       <thead><tr><th>Date</th><th>Event</th><th>Amount</th><th>Effect</th></tr></thead>
       <tbody>
+        <tr><td>18 Mar</td><td><span class="tag virgin">Virgin DD</span></td><td>£25.00</td><td>→ OD</td></tr>
+        <tr><td>19 Mar</td><td><span class="tag mbna">MBNA DD</span></td><td>£25.00</td><td>→ OD</td></tr>
         <tr><td>20 Mar</td><td><span class="tag klarna">Klarna</span></td><td>£56.00</td><td>→ OD</td></tr>
         <tr><td>21 Mar</td><td><span class="tag airbnb">Airbnb</span></td><td>£94.00</td><td>→ Debts</td></tr>
         <tr><td>25 Mar</td><td><span class="tag flex-dd">Flex DD</span></td><td>£154.66</td><td>→ Flex</td></tr>
@@ -193,23 +197,23 @@
   <div class="bday-sub">Virgin clears on the day · ya absolute machine · keep fucking going</div>
 </div>
 
-<div class="updated">Last updated: 17 Mar 2026 · £22.53/shift floor</div>
+<div class="updated">Last updated: 17 Mar 2026 · £22.53/shift · Virgin DD 18th · MBNA DD 19th monthly</div>
 
 <script>
 const labels = [
-  '17 Mar','21 Mar','28 Mar','4 Apr','11 Apr','18 Apr','25 Apr',
+  '17 Mar','21 Mar','28 Mar','4 Apr','13 Apr','18 Apr','25 Apr',
   '2 May','9 May','16 May','23 May','30 May',
   '6 Jun','13 Jun','20 Jun','27 Jun',
   '4 Jul','11 Jul','18 Jul','25 Jul','7 Aug'
 ];
 
-const od     = [706,479,340,153,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-const flex   = [1675,1675,1830,1985,1795,1705,1376,1240,1015,793,638,415,192,68,0,0,0,0,0,0,0];
+const od     = [706,503,365,178,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+const flex   = [1675,1675,1830,1985,1805,1715,1376,1240,1015,793,638,415,192,68,0,0,0,0,0,0,0];
 const mbna   = [888,888,888,888,888,888,888,888,888,888,888,888,888,888,888,710,490,268,98,0,0];
 const virgin = [300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,190,0];
 const total  = labels.map((_,i) => od[i]+flex[i]+mbna[i]+virgin[i]);
 
-const airbnbEvents = {'21 Mar':94,'28 Mar':94,'11 Apr':94,'18 Apr':94};
+const airbnbEvents = {'21 Mar':94,'28 Mar':94,'13 Apr':94,'18 Apr':94};
 const klarnaEvents = {'20 Mar':56,'28 Mar':48.94,'28 Apr':48.94,'28 May':48.94,'28 Jun':48.94,'28 Jul':48.94};
 const airbnbData = labels.map(l => airbnbEvents[l] || null);
 const klarnaData = labels.map(l => klarnaEvents[l] || null);
@@ -246,7 +250,7 @@ const chart = new Chart(document.getElementById('debtChart'), {
     },
     scales: {
       x: { ticks:{ font:{family:'Space Mono',size:9}, color:'#666', maxRotation:45, autoSkip:true, maxTicksLimit:10 }, grid:{color:'rgba(255,255,255,0.04)'}, border:{color:'#2a2a2a'} },
-      y: { position:'left', min:0, max:4500, ticks:{ font:{family:'Space Mono',size:9}, color:'#666', callback:v=>'£'+v.toLocaleString() }, grid:{color:'rgba(255,255,255,0.04)'}, border:{color:'#2a2a2a'} },
+      y: { position:'left', min:0, max:4000, ticks:{ font:{family:'Space Mono',size:9}, color:'#666', callback:v=>'£'+v.toLocaleString() }, grid:{color:'rgba(255,255,255,0.04)'}, border:{color:'#2a2a2a'} },
       y2: { position:'right', min:0, max:300, ticks:{ font:{family:'Space Mono',size:9}, color:'#444', callback:v=>'£'+v }, grid:{display:false}, border:{color:'#2a2a2a'} }
     }
   }
