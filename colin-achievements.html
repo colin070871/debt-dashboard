@@ -4,356 +4,438 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ACHIEVEMENTS — Colin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #0a0a0a; --panel: #111; --border: #222;
-    --text: #e0e0e0; --dim: #555;
-    --gold: #f5a623; --green: #39ff14; --blue: #4fc3f7; --red: #ff3b3b;
-    --locked: #2a2a2a; --dormant: #1a1a1a;
+    --bg: #0a0a0a; --surface: #141414; --surface2: #1e1e1e;
+    --border: #2a2a2a; --text: #f0f0f0; --muted: #888; --dim: #444;
+    --red: #e24b4a; --amber: #ef9f27; --blue: #378add;
+    --green: #1d9e75; --purple: #a87fd4; --white: #ffffff;
+    --unlocked: #1d9e75; --locked: #444; --dormant: #2a2a2a;
   }
-  body { background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
-  .header { text-align: center; margin-bottom: 2rem; width: 100%; max-width: 700px; }
-  .title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: 0.1em; background: linear-gradient(135deg, #f5a623, #ff3b3b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .subtitle { font-size: 0.6rem; color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; margin-top: 0.3rem; }
-  .score-bar-wrap { width: 100%; max-width: 700px; background: var(--panel); border: 1px solid var(--border); padding: 1.2rem 1.5rem; margin-bottom: 0.5rem; }
-  .score-label { font-size: 0.6rem; letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; margin-bottom: 0.5rem; display: flex; justify-content: space-between; }
-  .score-pct { color: var(--gold); font-weight: 700; }
-  .bar { height: 6px; background: #1a1a1a; border-radius: 3px; overflow: hidden; }
-  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); border-radius: 3px; transition: width 1s ease; width: 0%; }
-  .section { width: 100%; max-width: 700px; margin-bottom: 0.5rem; }
-  .section-title { font-size: 0.55rem; letter-spacing: 0.3em; color: var(--dim); text-transform: uppercase; padding: 0.6rem 1rem; background: #0d0d0d; border: 1px solid var(--border); border-bottom: none; }
-  .achievement { display: grid; grid-template-columns: 2rem 1fr auto auto; gap: 0.5rem; align-items: center; padding: 0.8rem 1rem; border: 1px solid var(--border); border-top: none; }
-  .achievement.unlocked { background: #0f1a0f; border-left: 3px solid var(--green); }
-  .achievement.locked { background: var(--locked); }
-  .achievement.dormant { background: var(--dormant); opacity: 0.5; }
-  .ach-icon { font-size: 1.1rem; text-align: center; }
-  .ach-name { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
-  .ach-desc { font-size: 0.6rem; color: var(--dim); }
-  .ach-points { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--gold); text-align: right; }
-  .ach-status { font-size: 0.55rem; letter-spacing: 0.15em; text-align: right; }
-  .ach-status.unlocked { color: var(--green); }
-  .ach-status.locked { color: var(--dim); }
-  .ach-status.dormant { color: #333; }
-  .total-row { width: 100%; max-width: 700px; background: var(--panel); border: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; }
-  .total-label { font-size: 0.6rem; letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; }
-  .total-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--gold); }
-  .baseline-note { font-size: 0.55rem; color: var(--dim); text-align: center; margin-top: 1rem; max-width: 700px; line-height: 1.6; }
+  body { background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; min-height: 100vh; padding: 0; margin: 0; }
+
+  .hero { padding: 2.5rem 2rem 1.5rem; border-bottom: 1px solid var(--border); background: #0d0d0d; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px,12vw,96px); letter-spacing: 6px; color: var(--white); line-height: 0.9; }
+  .hero-title span { color: var(--amber); }
+  .hero-sub { font-size: 10px; letter-spacing: 3px; color: var(--muted); margin-top: 10px; }
+
+  .main { padding: 2rem; max-width: 800px; margin: 0 auto; }
+
+  .score-block { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 2rem; }
+  .score-card { background: var(--surface); border: 1px solid var(--border); padding: 1.2rem; }
+  .score-label { font-size: 9px; letter-spacing: 3px; color: var(--muted); margin-bottom: 6px; }
+  .score-val { font-family: 'Bebas Neue', sans-serif; font-size: 48px; line-height: 1; }
+  .score-sub { font-size: 10px; color: var(--dim); margin-top: 6px; letter-spacing: 1px; }
+  .score-bar-track { height: 6px; background: var(--surface2); border: 1px solid var(--border); margin-top: 10px; overflow: hidden; }
+  .score-bar-fill { height: 100%; background: var(--amber); }
+
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; margin: 2rem 0 1rem; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .section-title.od { color: var(--red); }
+  .section-title.flex { color: var(--amber); }
+  .section-title.mbna { color: var(--blue); }
+  .section-title.virgin { color: var(--purple); }
+  .section-title.streak { color: var(--green); }
+
+  .ach-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); margin-bottom: 6px; }
+  .ach-row.unlocked { border-left: 3px solid var(--green); }
+  .ach-row.locked { border-left: 3px solid var(--dim); opacity: 0.7; }
+  .ach-row.dormant { border-left: 3px solid var(--dormant); opacity: 0.4; }
+
+  .ach-icon { font-size: 20px; flex-shrink: 0; width: 28px; text-align: center; }
+  .ach-info { flex: 1; }
+  .ach-name { font-size: 11px; font-weight: 700; color: var(--white); letter-spacing: 1px; margin-bottom: 2px; }
+  .ach-row.locked .ach-name, .ach-row.dormant .ach-name { color: var(--muted); }
+  .ach-desc { font-size: 9px; color: var(--muted); letter-spacing: 0.5px; line-height: 1.6; }
+  .ach-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .ach-reward { font-size: 10px; font-weight: 700; color: var(--amber); }
+  .ach-row.unlocked .ach-reward { color: var(--green); }
+  .ach-status { font-size: 8px; letter-spacing: 2px; padding: 2px 8px; border: 1px solid; }
+  .ach-row.unlocked .ach-status { color: var(--green); border-color: var(--green); }
+  .ach-row.locked .ach-status { color: var(--dim); border-color: var(--dim); }
+  .ach-row.dormant .ach-status { color: var(--dormant); border-color: var(--dormant); }
+
+  .baselines { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--dim); padding: 14px 16px; font-size: 10px; color: var(--muted); line-height: 2; margin-top: 2rem; }
+  .baselines strong { color: var(--text); }
+
+  .od-progress { background: var(--surface); border: 1px solid var(--border); padding: 14px; margin-bottom: 2rem; }
+  .od-prog-label { font-size: 9px; letter-spacing: 2px; color: var(--muted); margin-bottom: 8px; }
+  .od-prog-track { height: 8px; background: var(--surface2); border: 1px solid var(--border); overflow: hidden; }
+  .od-prog-fill { height: 100%; background: var(--red); }
+  .od-prog-vals { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); margin-top: 6px; }
+
+  .updated { text-align: right; font-size: 9px; color: var(--dim); letter-spacing: 2px; padding: 1rem 2rem; }
+
+  @media (max-width: 500px) { .score-block { grid-template-columns: 1fr; } .main { padding: 1rem; } }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="title">🏆 Achievements</div>
-  <div class="subtitle">UPDATED: 11 MARCH 2026</div>
+<div class="hero">
+  <div class="hero-title">🏆 <span>ACHIEVEMENTS</span></div>
+  <div class="hero-sub">UPDATED: 17 MARCH 2026 · FLOOR: £22.53/SHIFT · SCORE: 0% · STREAK: 0</div>
 </div>
 
-<div class="score-bar-wrap">
-  <div class="score-label"><span>Score Progress</span><span class="score-pct">0% / 100%</span></div>
-  <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
-</div>
+<div class="main">
 
-<!-- CONSISTENCY -->
-<div class="section">
-  <div class="section-title">🧱 Consistency — Behaviour Engine</div>
-
-  <div class="achievement locked">
-    <div class="ach-icon">🔥</div>
-    <div><div class="ach-name">Streak 1 — Up Day With Floor Met</div><div class="ach-desc">Hit both shift floors in one day</div></div>
-    <div class="ach-points">+1%</div>
-    <div class="ach-status locked">LOCKED</div>
+  <!-- SCORE -->
+  <div class="score-block">
+    <div class="score-card">
+      <div class="score-label">ACHIEVEMENT SCORE</div>
+      <div class="score-val" style="color:var(--amber)">0%</div>
+      <div class="score-sub">Score resets on missed floor shift</div>
+      <div class="score-bar-track"><div class="score-bar-fill" style="width:0%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">CURRENT STREAK</div>
+      <div class="score-val" style="color:var(--muted)">0</div>
+      <div class="score-sub">consecutive floor shifts</div>
+      <div class="score-bar-track"><div class="score-bar-fill" style="width:0%; background:var(--green)"></div></div>
+    </div>
   </div>
 
-  <div class="achievement locked">
-    <div class="ach-icon">🔥</div>
-    <div><div class="ach-name">Streak 2 — Up Day With Floor Met</div><div class="ach-desc">2 consecutive working days hitting both floors (Sat skipped — Fri→Sun counts)</div></div>
-    <div class="ach-points">+2%</div>
-    <div class="ach-status locked">LOCKED</div>
+  <!-- OD PROGRESS -->
+  <div class="od-progress">
+    <div class="od-prog-label">OD PROGRESS — £705.92 of £825.73 baseline</div>
+    <div class="od-prog-track"><div class="od-prog-fill" style="width:15%"></div></div>
+    <div class="od-prog-vals"><span>£825.73 baseline</span><span style="color:var(--red)">£705.92 now · 15% cleared</span><span>£0 target</span></div>
   </div>
 
-  <div class="achievement locked">
-    <div class="ach-icon">🔥</div>
-    <div><div class="ach-name">Streak 5 — Up Day With Floor Met</div><div class="ach-desc">5 consecutive working days hitting both floors (Sat skipped — Fri→Sun counts)</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status locked">LOCKED</div>
-  </div>
+  <!-- STREAK / CONSISTENCY -->
+  <div class="section-title streak">🧱 Consistency — Behaviour Engine</div>
 
-  <div class="achievement locked">
+  <div class="ach-row locked">
+    <div class="ach-icon">🔥</div>
+    <div class="ach-info">
+      <div class="ach-name">Streak 1 — Floor Met</div>
+      <div class="ach-desc">Hit both shift floors in one working day</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+1%</div><div class="ach-status">LOCKED</div></div>
+  </div>
+  <div class="ach-row locked">
+    <div class="ach-icon">🔥</div>
+    <div class="ach-info">
+      <div class="ach-name">Streak 2 — 2 Days Floor Met</div>
+      <div class="ach-desc">2 consecutive working days hitting both floors (Fri→Sun counts)</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+2%</div><div class="ach-status">LOCKED</div></div>
+  </div>
+  <div class="ach-row locked">
+    <div class="ach-icon">🔥</div>
+    <div class="ach-info">
+      <div class="ach-name">Streak 5 — 5 Days Floor Met</div>
+      <div class="ach-desc">5 consecutive working days hitting both floors (Fri→Sun counts)</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">LOCKED</div></div>
+  </div>
+  <div class="ach-row locked">
     <div class="ach-icon">📅</div>
-    <div><div class="ach-name">1 Week Flooring It</div><div class="ach-desc">7 consecutive working days, both shifts hit floor (Sat skipped — Fri→Sun counts)</div></div>
-    <div class="ach-points">+5%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">1 Week Flooring It</div>
+      <div class="ach-desc">7 consecutive working days, both shifts hit floor (Fri→Sun counts)</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+5%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">📅</div>
-    <div><div class="ach-name">Fortnight Flooring It</div><div class="ach-desc">14 consecutive working days (Sat skipped — Fri→Sun counts)</div></div>
-    <div class="ach-points">+6%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">Fortnight Flooring It</div>
+      <div class="ach-desc">14 consecutive working days hitting both floors</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+6%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">🗓️</div>
-    <div><div class="ach-name">1 Month Flooring It</div><div class="ach-desc">1 full calendar month consistent floors</div></div>
-    <div class="ach-points">+8%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">1 Month Flooring It</div>
+      <div class="ach-desc">1 full calendar month of consistent floors</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+8%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">🗓️</div>
-    <div><div class="ach-name">2 Months Flooring It</div><div class="ach-desc">2 consecutive months consistent floors</div></div>
-    <div class="ach-points">+8%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">2 Months Flooring It</div>
+      <div class="ach-desc">2 consecutive months of consistent floors</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+8%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">🗓️</div>
-    <div><div class="ach-name">4 Months Flooring It</div><div class="ach-desc">4 consecutive months consistent floors</div></div>
-    <div class="ach-points">+8%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">4 Months Flooring It</div>
+      <div class="ach-desc">4 consecutive months of consistent floors</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+8%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
-    <div class="ach-icon">🗓️</div>
-    <div><div class="ach-name">6 Months Flooring It</div><div class="ach-desc">6 consecutive months consistent floors</div></div>
-    <div class="ach-points">+8%</div>
-    <div class="ach-status locked">LOCKED</div>
-  </div>
-
-  <div class="achievement locked">
-    <div class="ach-icon">🗓️</div>
-    <div><div class="ach-name">9 Months Flooring It</div><div class="ach-desc">9 consecutive months consistent floors</div></div>
-    <div class="ach-points">+8%</div>
-    <div class="ach-status locked">LOCKED</div>
-  </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">🏆</div>
-    <div><div class="ach-name">1 Year Flooring It</div><div class="ach-desc">12 consecutive months consistent floors</div></div>
-    <div class="ach-points">+10%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">Full Campaign Flooring It</div>
+      <div class="ach-desc">Every floor hit from 17 Mar to 7 Aug 2026</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+10%</div><div class="ach-status">LOCKED</div></div>
   </div>
-</div>
 
-<!-- OD -->
-<div class="section">
-  <div class="section-title">💳 OD — Current Priority Debt (baseline 7 Mar: £825.73)</div>
+  <!-- OD -->
+  <div class="section-title od">💳 OD — Current Priority (baseline 7 Mar: £825.73)</div>
 
-  <div class="achievement locked">
+  <div class="ach-row unlocked">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">OD 10% Cleared</div><div class="ach-desc">OD ≤ £743.16 — currently £750.87</div></div>
-    <div class="ach-points">+1%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD 10% Cleared</div>
+      <div class="ach-desc">OD ≤ £743.16 — current £705.92 ✓</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+1%</div><div class="ach-status">UNLOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">OD 25% Cleared</div><div class="ach-desc">OD ≤ £619.30</div></div>
-    <div class="ach-points">+2%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD 25% Cleared</div>
+      <div class="ach-desc">OD ≤ £619.30 — £86.62 to go</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+2%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">OD 33.33% Cleared</div><div class="ach-desc">OD ≤ £550.51 — one third gone</div></div>
-    <div class="ach-points">+2%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD 33% Cleared</div>
+      <div class="ach-desc">OD ≤ £550.51 — one third gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+2%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">OD 50% Cleared</div><div class="ach-desc">OD ≤ £412.87 — halfway</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD 50% Cleared</div>
+      <div class="ach-desc">OD ≤ £412.87 — halfway</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">OD 66.66% Cleared</div><div class="ach-desc">OD ≤ £275.30 — two thirds gone</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD 66% Cleared</div>
+      <div class="ach-desc">OD ≤ £275.30 — two thirds gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">OD 75% Cleared</div><div class="ach-desc">OD ≤ £206.43</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD 75% Cleared</div>
+      <div class="ach-desc">OD ≤ £206.43</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">OD 90% Cleared</div><div class="ach-desc">OD ≤ £82.57</div></div>
-    <div class="ach-points">+4%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD 90% Cleared</div>
+      <div class="ach-desc">OD ≤ £82.57</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+4%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">OD 95% Cleared</div><div class="ach-desc">OD ≤ £41.29</div></div>
-    <div class="ach-points">+4%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD 95% Cleared</div>
+      <div class="ach-desc">OD ≤ £41.29</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+4%</div><div class="ach-status">LOCKED</div></div>
   </div>
-
-  <div class="achievement locked">
+  <div class="ach-row locked">
     <div class="ach-icon">💥</div>
-    <div><div class="ach-name">OD Fully Cleared</div><div class="ach-desc">OD = £0 — done with this bastard</div></div>
-    <div class="ach-points">+6%</div>
-    <div class="ach-status locked">LOCKED</div>
+    <div class="ach-info">
+      <div class="ach-name">OD Fully Cleared</div>
+      <div class="ach-desc">OD = £0 — done with this bastard · ~12 Apr 2026</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+6%</div><div class="ach-status">LOCKED</div></div>
   </div>
-</div>
 
-<!-- FLEX -->
-<div class="section">
-  <div class="section-title">💳 Flex — Active once OD reaches £0 (baseline 7 Mar: £1,398.66)</div>
+  <!-- FLEX -->
+  <div class="section-title flex">💳 Flex — Active once OD = £0 (baseline: £1,675.18)</div>
 
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">Flex 10% Cleared</div><div class="ach-desc">Flex ≤ £1,258.79 — dormant until OD gone</div></div>
-    <div class="ach-points">+1%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex 10% Cleared</div>
+      <div class="ach-desc">Flex ≤ £1,507.66 — dormant until OD gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+1%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">Flex 25% Cleared</div><div class="ach-desc">Flex ≤ £1,049.00 — dormant until OD gone</div></div>
-    <div class="ach-points">+2%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex 25% Cleared</div>
+      <div class="ach-desc">Flex ≤ £1,256.39 — dormant until OD gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+2%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">Flex 33.33% Cleared</div><div class="ach-desc">Flex ≤ £932.49 — dormant until OD gone</div></div>
-    <div class="ach-points">+2%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex 33% Cleared</div>
+      <div class="ach-desc">Flex ≤ £1,118.37 — dormant until OD gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+2%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">Flex 50% Cleared</div><div class="ach-desc">Flex ≤ £699.33 — dormant until OD gone</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex 50% Cleared</div>
+      <div class="ach-desc">Flex ≤ £837.59 — dormant until OD gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">Flex 66.66% Cleared</div><div class="ach-desc">Flex ≤ £466.31 — dormant until OD gone</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex 66% Cleared</div>
+      <div class="ach-desc">Flex ≤ £558.76 — dormant until OD gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">Flex 75% Cleared</div><div class="ach-desc">Flex ≤ £349.67 — dormant until OD gone</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex 75% Cleared</div>
+      <div class="ach-desc">Flex ≤ £418.80 — dormant until OD gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">Flex 90% Cleared</div><div class="ach-desc">Flex ≤ £139.87 — dormant until OD gone</div></div>
-    <div class="ach-points">+4%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex 90% Cleared</div>
+      <div class="ach-desc">Flex ≤ £167.52 — dormant until OD gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+4%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">Flex 95% Cleared</div><div class="ach-desc">Flex ≤ £69.93 — dormant until OD gone</div></div>
-    <div class="ach-points">+4%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex 95% Cleared</div>
+      <div class="ach-desc">Flex ≤ £83.76 — dormant until OD gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+4%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">💥</div>
-    <div><div class="ach-name">Flex Fully Cleared</div><div class="ach-desc">Flex = £0 — dormant until OD gone</div></div>
-    <div class="ach-points">+6%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Flex Fully Cleared</div>
+      <div class="ach-desc">Flex = £0 — dormant until OD gone · ~12 Jun 2026</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+6%</div><div class="ach-status">DORMANT</div></div>
   </div>
-</div>
 
-<!-- MBNA -->
-<div class="section">
-  <div class="section-title">💳 MBNA — Active once Flex reaches £0 (baseline 7 Mar: £887.56)</div>
+  <!-- MBNA -->
+  <div class="section-title mbna">💳 MBNA — Active once Flex = £0 (baseline: £887.56)</div>
 
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">MBNA 10% Cleared</div><div class="ach-desc">MBNA ≤ £798.80 — dormant until Flex gone</div></div>
-    <div class="ach-points">+1%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA 10% Cleared</div>
+      <div class="ach-desc">MBNA ≤ £798.80 — dormant until Flex gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+1%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">MBNA 25% Cleared</div><div class="ach-desc">MBNA ≤ £665.67 — dormant until Flex gone</div></div>
-    <div class="ach-points">+2%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA 25% Cleared</div>
+      <div class="ach-desc">MBNA ≤ £665.67 — dormant until Flex gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+2%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">MBNA 33.33% Cleared</div><div class="ach-desc">MBNA ≤ £591.74 — dormant until Flex gone</div></div>
-    <div class="ach-points">+2%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA 33% Cleared</div>
+      <div class="ach-desc">MBNA ≤ £591.74 — dormant until Flex gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+2%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">MBNA 50% Cleared</div><div class="ach-desc">MBNA ≤ £443.78 — dormant until Flex gone</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA 50% Cleared</div>
+      <div class="ach-desc">MBNA ≤ £443.78 — dormant until Flex gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">MBNA 66.66% Cleared</div><div class="ach-desc">MBNA ≤ £295.91 — dormant until Flex gone</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA 66% Cleared</div>
+      <div class="ach-desc">MBNA ≤ £295.91 — dormant until Flex gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">MBNA 75% Cleared</div><div class="ach-desc">MBNA ≤ £221.89 — dormant until Flex gone</div></div>
-    <div class="ach-points">+3%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA 75% Cleared</div>
+      <div class="ach-desc">MBNA ≤ £221.89 — dormant until Flex gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">MBNA 90% Cleared</div><div class="ach-desc">MBNA ≤ £88.76 — dormant until Flex gone</div></div>
-    <div class="ach-points">+4%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA 90% Cleared</div>
+      <div class="ach-desc">MBNA ≤ £88.76 — dormant until Flex gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+4%</div><div class="ach-status">DORMANT</div></div>
   </div>
-
-  <div class="achievement dormant">
+  <div class="ach-row dormant">
     <div class="ach-icon">📉</div>
-    <div><div class="ach-name">MBNA 95% Cleared</div><div class="ach-desc">MBNA ≤ £44.38 — dormant until Flex gone</div></div>
-    <div class="ach-points">+4%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA 95% Cleared</div>
+      <div class="ach-desc">MBNA ≤ £44.38 — dormant until Flex gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+4%</div><div class="ach-status">DORMANT</div></div>
+  </div>
+  <div class="ach-row dormant">
+    <div class="ach-icon">💥</div>
+    <div class="ach-info">
+      <div class="ach-name">MBNA Fully Cleared</div>
+      <div class="ach-desc">MBNA = £0 — dormant until Flex gone · ~26 Jul 2026</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+6%</div><div class="ach-status">DORMANT</div></div>
   </div>
 
-  <div class="achievement dormant">
+  <!-- VIRGIN -->
+  <div class="section-title virgin">💳 Virgin — Active once MBNA = £0 (£300.00)</div>
+
+  <div class="ach-row dormant">
+    <div class="ach-icon">📉</div>
+    <div class="ach-info">
+      <div class="ach-name">Virgin 50% Cleared</div>
+      <div class="ach-desc">Virgin ≤ £150.00 — dormant until MBNA gone</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+3%</div><div class="ach-status">DORMANT</div></div>
+  </div>
+  <div class="ach-row dormant">
     <div class="ach-icon">🎂</div>
-    <div><div class="ach-name">MBNA Fully Cleared — BIRTHDAY</div><div class="ach-desc">7 August 2026. Freedom.</div></div>
-    <div class="ach-points">+6%</div>
-    <div class="ach-status dormant">DORMANT</div>
+    <div class="ach-info">
+      <div class="ach-name">Virgin Fully Cleared — DEBT FREE</div>
+      <div class="ach-desc">7 August 2026. Freedom. 35th Birthday. Ya absolute machine.</div>
+    </div>
+    <div class="ach-right"><div class="ach-reward">+10%</div><div class="ach-status">DORMANT</div></div>
   </div>
+
+  <!-- BASELINES -->
+  <div class="baselines">
+    <strong>Baselines set 7 March 2026</strong> — OD £825.73 · Flex £1,675.18 · MBNA £887.56 · Virgin £300.00<br>
+    <strong>Floor:</strong> £22.53/shift · 2 shifts/day · Sun–Fri<br>
+    <strong>Score resets to 0%</strong> on any missed floor shift (LIFE allowed for weather/illness)
+  </div>
+
 </div>
 
-<div class="total-row">
-  <div class="total-label">Total Unlocked</div>
-  <div class="total-val">0% / 100%</div>
-</div>
+<div class="updated">Last updated: 17 Mar 2026</div>
 
-<div class="baseline-note">
-  Baselines set 7 March 2026 — OD £825.73 · Flex £1,398.66 · MBNA £887.56<br>
-  Score resets to 0% on any missed floor shift · Floor: £21.59/shift
-</div>
-
-<script>
-  setTimeout(() => {
-    document.getElementById('barFill').style.width = '0%';
-  }, 300);
-</script>
 </body>
 </html>
