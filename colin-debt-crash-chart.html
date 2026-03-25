@@ -69,12 +69,10 @@
   .tag { font-size: 9px; padding: 2px 8px; letter-spacing: 1px; display: inline-block; }
   .tag.airbnb { color: var(--green); border: 1px solid var(--green); }
   .tag.klarna { color: var(--teal); border: 1px solid var(--teal); }
-  .tag.flex-dd { color: var(--amber); border: 1px solid var(--amber); }
   .tag.cancelled { color: var(--red); border: 1px solid var(--red); text-decoration: line-through; }
   .birthday-footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); }
   .bday-main { font-family: 'Bebas Neue', sans-serif; font-size: clamp(18px,4vw,28px); letter-spacing: 3px; color: var(--green); }
   .bday-sub { font-size: 10px; letter-spacing: 2px; color: var(--muted); margin-top: 6px; }
-  .stoic { font-size: 10px; color: var(--dim); font-style: italic; margin-top: 8px; letter-spacing: 1px; }
   .updated { text-align: right; font-size: 9px; color: var(--dim); letter-spacing: 2px; padding: 1rem 2rem; }
   @media (max-width: 600px) { .milestones, .balances { grid-template-columns: repeat(2, 1fr); } .two-col { grid-template-columns: 1fr; } .main { padding: 1rem; } }
 </style>
@@ -82,19 +80,19 @@
 <body>
 <div class="hero">
   <div class="hero-title">DEBT<span>CRUSHER</span></div>
-  <div class="hero-sub">UPDATED: 24 MARCH 2026 · FLOOR: <strong>£22.95/SHIFT · £45.90/DAY</strong> · SCORE: 5% · STREAK: 0 · OD CLEARS ~29 APR</div>
+  <div class="hero-sub">UPDATED: 25 MARCH 2026 · FLOOR: <strong>£22.95/SHIFT · £45.90/DAY</strong> · SCORE: 5% · STREAK: 0 · OD CLEARS ~30 APR</div>
 </div>
 <div class="main">
   <div class="milestones">
-    <div class="ms-card od"><div class="ms-label">OD Clears</div><div class="ms-date">29 APR</div><div class="ms-detail">~36 days</div></div>
-    <div class="ms-card flex"><div class="ms-label">Flex Clears</div><div class="ms-date">18 JUN</div><div class="ms-detail">~86 days</div></div>
-    <div class="ms-card mbna"><div class="ms-label">MBNA Clears</div><div class="ms-date">30 JUL</div><div class="ms-detail">~128 days</div></div>
+    <div class="ms-card od"><div class="ms-label">OD Clears</div><div class="ms-date">30 APR</div><div class="ms-detail">~36 days</div></div>
+    <div class="ms-card flex"><div class="ms-label">Flex Clears</div><div class="ms-date">18 JUN</div><div class="ms-detail">~85 days</div></div>
+    <div class="ms-card mbna"><div class="ms-label">MBNA Clears</div><div class="ms-date">30 JUL</div><div class="ms-detail">~127 days</div></div>
     <div class="ms-card virgin"><div class="ms-label">Virgin Clears</div><div class="ms-date">7 AUG</div><div class="ms-detail">🎂 on the day!</div></div>
   </div>
   <div class="balances">
-    <div class="bal-card od"><div class="bal-label">OD Now</div><div class="bal-val">£750.67</div><div class="bal-sub">24 Mar 2026</div></div>
-    <div class="bal-card flex"><div class="bal-label">Flex</div><div class="bal-val">£1,675.18</div><div class="bal-sub">current</div></div>
-    <div class="bal-card mbna"><div class="bal-label">MBNA</div><div class="bal-val">£837.56</div><div class="bal-sub">current</div></div>
+    <div class="bal-card od"><div class="bal-label">OD Now</div><div class="bal-val">£755.67</div><div class="bal-sub">25 Mar 2026</div></div>
+    <div class="bal-card flex"><div class="bal-label">Flex</div><div class="bal-val">£1,609.66</div><div class="bal-sub">after DD today</div></div>
+    <div class="bal-card mbna"><div class="bal-label">MBNA</div><div class="bal-val">£863.92</div><div class="bal-sub">current</div></div>
     <div class="bal-card virgin"><div class="bal-label">Virgin</div><div class="bal-val">£300.00</div><div class="bal-sub">after MBNA</div></div>
   </div>
   <div class="chart-section">
@@ -130,9 +128,10 @@
           <tr><td>19th</td><td>MBNA DD (min)</td><td>£25.00</td></tr>
           <tr><td>19th</td><td>Amazon</td><td>£4.99</td></tr>
           <tr><td>25th</td><td>NOWTV</td><td>£9.99</td></tr>
-          <tr><td>25th</td><td>Flex DD</td><td>~£154–162</td></tr>
-          <tr><td>26th</td><td>O2 + Max</td><td>£67.15</td></tr>
-          <tr><td></td><td class="total-row">TOTAL</td><td class="total-row">~£619.93</td></tr>
+          <tr><td>25th</td><td>Flex DD</td><td>~£99–107</td></tr>
+          <tr><td>26th</td><td>O2</td><td>£62.14</td></tr>
+          <tr><td>26th</td><td>Max</td><td>£17.00</td></tr>
+          <tr><td></td><td class="total-row">TOTAL</td><td class="total-row">~£581.92</td></tr>
         </tbody>
       </table>
     </div>
@@ -147,10 +146,10 @@
           <tr><td>11 Apr</td><td><span class="tag airbnb">Airbnb</span></td><td>£84.60</td><td>→ OD</td></tr>
           <tr><td>18 Apr</td><td><span class="tag airbnb">Airbnb</span></td><td>£84.60</td><td>→ OD</td></tr>
           <tr><td>25 Apr</td><td><span class="tag airbnb">Airbnb</span></td><td>£84.60</td><td>→ OD</td></tr>
-          <tr><td>28 Apr</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>→ OD/Flex</td></tr>
+          <tr><td>28 Apr</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ OD/Flex</td></tr>
           <tr><td>28 May</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ Flex</td></tr>
           <tr><td>28 Jun</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ MBNA</td></tr>
-          <tr><td>28 Jul</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ MBNA/Virgin</td></tr>
+          <tr><td>28 Jul</td><td><span class="tag klarna">Klarna</span></td><td>£48.94</td><td>↓ Virgin</td></tr>
         </tbody>
       </table>
     </div>
@@ -158,27 +157,26 @@
 </div>
 <div class="birthday-footer">
   <div class="bday-main">🎂 35TH BIRTHDAY — 7 AUGUST 2026 — DEBT FREE 🎂</div>
-  <div class="bday-sub">Virgin clears on the day · keep going · you've got this</div>
-  <div class="stoic">"Waste no more time arguing what a good man should be. Be one." — Marcus Aurelius</div>
+  <div class="bday-sub">Edinburgh grit · debt doesn't stand a chance · every shift is a brick in the wall</div>
 </div>
-<div class="updated">Last updated: 24 Mar 2026 · £22.95/shift · £45.90/day · Score: 5% · OD £750.67 · OD clears ~29 Apr</div>
+<div class="updated">Last updated: 25 Mar 2026 · £22.95/shift · £45.90/day · Score: 5% · OD £755.67 · Flex £1,609.66</div>
 <script>
-const labels=['24 Mar','28 Mar','11 Apr','29 Apr','10 May','18 Jun','30 Jul','7 Aug'];
-const od=    [751,    588,    316,    0,      0,      0,      0,      0];
-const flex=  [1675,   1675,   1675,   1675,   1420,   0,      0,      0];
-const mbna=  [838,    838,    838,    838,    838,    838,    0,      0];
-const virgin=[300,    300,    300,    300,    300,    300,    300,    0];
+const labels=['25 Mar','30 Apr','18 Jun','30 Jul','7 Aug'];
+const od=    [756,    0,      0,      0,      0];
+const flex=  [1610,   1502,   0,      0,      0];
+const mbna=  [864,    839,    789,    0,      0];
+const virgin=[300,    300,    300,    300,    0];
 const total=labels.map((_,i)=>od[i]+flex[i]+mbna[i]+virgin[i]);
-const airbnbEvents={'28 Mar':84.6,'11 Apr':84.6,'18 Apr':84.6,'25 Apr':84.6};
-const klarnaEvents={'28 Mar':48.94,'28 Apr':48.94,'28 May':48.94,'28 Jun':48.94,'28 Jul':48.94};
+const airbnbEvents={};
+const klarnaEvents={};
 const airbnbData=labels.map(l=>airbnbEvents[l]||null);
 const klarnaData=labels.map(l=>klarnaEvents[l]||null);
 const datasets=[
-  {id:'total',label:'Total',data:total,borderColor:'#ffffff',borderWidth:2.5,pointRadius:2,tension:0.3,fill:false,yAxisID:'y'},
-  {id:'od',label:'OD',data:od,borderColor:'#e24b4a',borderWidth:2,pointRadius:2,tension:0.3,fill:false,yAxisID:'y'},
-  {id:'flex',label:'Flex',data:flex,borderColor:'#ef9f27',borderWidth:2,pointRadius:2,tension:0.3,fill:false,yAxisID:'y'},
-  {id:'mbna',label:'MBNA',data:mbna,borderColor:'#378add',borderWidth:2,pointRadius:2,tension:0.3,fill:false,yAxisID:'y'},
-  {id:'virgin',label:'Virgin',data:virgin,borderColor:'#a87fd4',borderWidth:2,pointRadius:2,tension:0.3,fill:false,yAxisID:'y'},
+  {id:'total',label:'Total',data:total,borderColor:'#ffffff',borderWidth:2.5,pointRadius:3,tension:0.3,fill:false,yAxisID:'y'},
+  {id:'od',label:'OD',data:od,borderColor:'#e24b4a',borderWidth:2,pointRadius:3,tension:0.3,fill:false,yAxisID:'y'},
+  {id:'flex',label:'Flex',data:flex,borderColor:'#ef9f27',borderWidth:2,pointRadius:3,tension:0.3,fill:false,yAxisID:'y'},
+  {id:'mbna',label:'MBNA',data:mbna,borderColor:'#378add',borderWidth:2,pointRadius:3,tension:0.3,fill:false,yAxisID:'y'},
+  {id:'virgin',label:'Virgin',data:virgin,borderColor:'#a87fd4',borderWidth:2,pointRadius:3,tension:0.3,fill:false,yAxisID:'y'},
   {id:'airbnb',label:'Airbnb',data:airbnbData,borderColor:'#1d9e75',backgroundColor:'#1d9e75',borderWidth:0,pointRadius:8,pointStyle:'triangle',showLine:false,yAxisID:'y2'},
   {id:'klarna',label:'Klarna',data:klarnaData,borderColor:'#5dcaa5',backgroundColor:'#5dcaa5',borderWidth:0,pointRadius:7,pointStyle:'rectRot',showLine:false,yAxisID:'y2'}
 ];
